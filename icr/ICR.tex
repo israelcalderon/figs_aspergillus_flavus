@@ -1,0 +1,86 @@
+% Plantilla creada originalmente por la Dra. BEeatriz Adriana González Beltrán
+% para ICR de la Maestría en Ciencias de la Computación
+% Revisada por el Comité de estudios
+%
+
+\documentclass[spanish,12pt,letterpaper]{book}
+
+\usepackage[spanish,mexico]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+%% Es para poner los márgenes en una impresión
+%% a ambas caras de la hoja
+\voffset=-36pt
+\marginparsep=20pt
+\textwidth 6.0in
+\textheight 8.75in
+\oddsidemargin 0.4in
+\evensidemargin 0in
+
+\decimalpoint
+
+\renewcommand{\tablename}{Tabla}
+
+\graphicspath{ {./Imagenes/} }
+
+\usepackage[automake]{glossaries-extra}
+\makeglossaries
+\loadglsentries{Glosario/Glosario}
+
+\begin{document}
+
+\frontmatter
+\include{Portada/Portada}
+\include{Resumen/Resumen}
+\include{Agradecimientos/Dedicatoria}
+\include{Agradecimientos/Agradecimientos}
+
+\tableofcontents
+
+\addcontentsline{toc}{chapter}{Índice de figuras}
+\listoffigures
+\addcontentsline{toc}{chapter}{Índice de tablas}
+\listoftables
+\printglossary[title={Simbología y Acrónimos}, nonumberlist]
+\mainmatter
+\pagestyle{fancy}
+
+\renewcommand{\chaptermark}[1]{\markboth{\it\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\chaptername \ \thechapter}{}}
+\fancyhead[LO,RE]{}
+\fancyhead[LE]{{\bfseries\thepage} \ \ \rightmark}
+\fancyhead[RO]{\leftmark \ \ {\bfseries\thepage}}
+\fancyfoot[LO,LE]{Universidad Autónoma Metropolitana}
+\fancyfoot[CO,CE]{}
+
+\fancyfoot[RO,RE]{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+
+\include{Introduccion/Introduccion}
+\include{MarcoTeorico/MarcoTeorico}
+\include{EstadoDelArte/EstadoDelArte}
+\include{Metodologia/Metodologia}
+\include{ExperimentacionResultados/ExperimentacionResultados}
+\include{Conclusiones/Conclusiones}
+
+
+\appendix
+\include{Anexos/Anexo1}
+%\include{Anexos/Anexo2}
+
+
+% \backmatter
+\addcontentsline{toc}{chapter}{Bibliografía}
+\bibliographystyle{unsrt}
+\nocite{*}
+\bibliography{Referencias/Referencias}
+
+\end{document}
+
