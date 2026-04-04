@@ -11,15 +11,23 @@ La metodología se estructura sistemáticamente para asegurar su reproducibilida
 \end{itemize}
 
 \section{Preprocesamiento de Imágenes}
-\begin{itemize}
-    \item Las imágenes adquiridas se calibraron radiométricamente usando referencias claras y oscuras para convertir la intensidad bruta en reflectancia relativa \cite{cruz-carrasco_detection_2024}.
-    \item Se realizó una segmentación manual empleando el software de código abierto LabelMe, aislando 560 muestras individuales (277 controles y 283 inoculadas) \cite{wada_wkentarolabelme_2021}.
-\end{itemize}
+El procesamiento de los datos espaciales y espectrales, así como la extracción inicial de características, se llevó a cabo apoyándose en la biblioteca Spectral Python (SPy) para la manipulación y análisis algorítmico de los cubos hiperespectrales. Como primer paso en el flujo de trabajo, se procedió a la lectura e interpretación de los archivos de encabezado (.hdr) y los archivos de datos binarios (.raw) generados por el sensor SPECIM FX10, lo que permitió reconstruir digitalmente las escenas adquiridas.
+Como primer paso en el flujo de trabajo, se procedió a la lectura e interpretación de los archivos de encabezado (.hdr) y los archivos de datos binarios (.raw) generados por el sensor SPECIM FX10, lo que permitió reconstruir digitalmente las escenas adquiridas.
+
+Dado que los valores capturados inicialmente por la cámara representan intensidades lumínicas brutas, las cuales están inherentemente sujetas a fluctuaciones de la fuente de iluminación y al ruido térmico del sensor, fue indispensable aplicar una corrección radiométrica. Los valores de intensidad bruta se convirtieron a reflectancia relativa aplicando referencias claras y oscuras adquiridas junto con cada escena, de acuerdo con la siguiente ecuación\cite{morales_laboratory_2022}:
+\begin{equation}
+    R=\dfrac{I_{raw}-I_{dark}}{I_{white}-I_{dark}}
+\end{equation}
+
+Donde $I_{raw}$ corresponde a la intensidad de la imagen bruta, $I_{dark}$ representa la referencia oscura (capturada con el obturador cerrado para medir la corriente oscura del sensor), e $I_{white}$ es la referencia blanca (obtenida mediante un panel de calibración de reflectancia máxima).
+
+Posterior a la calibración, y con el fin de procesar la información espectral de cada fruto de manera individualizada y libre del ruido de fondo, se procesaron un total de 18 escenas hiperespectrales completas. El aislamiento espacial de las Regiones de Interés (ROI) se efectuó a través de una segmentación manual utilizando el software de anotación de código abierto LabelMe (v5.8.3)\cite{wada_wkentarolabelme_2021}.
+Este meticuloso proceso dio como resultado la generación de 560 máscaras de segmentación individuales. Consecuentemente, el conjunto de datos de trabajo final quedó constituido por estas 560 muestras independientes, distribuidas en 277 muestras pertenecientes a la clase de control sana (Clase 0) y 283 muestras correspondientes a la clase inoculada con la concentración severa (Clase 1).
 
 \begin{figure}[!ht]
     \centering
     \subfloat[]{\includegraphics[width=0.4\textwidth]{sample_figs_tray.png}}
-    \hspace{1cm}
+    \hspace{1mm}
     \subfloat[]{\includegraphics[width=0.4\textwidth]{sample_figs_masks.png}}
     \caption{Charola de higos antes de la segmentación (a) y mascaras de higos después de la segmentación (b)}
     \label{fig:segmentacion}

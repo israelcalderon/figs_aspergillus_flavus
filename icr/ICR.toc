@@ -12,8 +12,8 @@
 \contentsline {chapter}{\numberline {4}Metodología}{9}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Adquisición de Datos e Inoculación}{9}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Preprocesamiento de Imágenes}{9}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Extracción de Características y Construcción del Vector}{10}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Proceso de Optimización (Diseño Metaheurístico)}{10}{section.4.4}%
+\contentsline {section}{\numberline {4.3}Extracción de Características y Construcción del Vector}{11}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Proceso de Optimización (Diseño Metaheurístico)}{11}{section.4.4}%
 \contentsline {chapter}{\numberline {5}Experimentación y Resultados}{13}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Medidas y Métricas Utilizadas}{13}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Configuraciones Experimentales}{13}{section.5.2}%
