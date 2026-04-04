@@ -14,13 +14,13 @@
 \contentsline {section}{\numberline {4.2}Preprocesamiento de Imágenes}{9}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Extracción de Características y Construcción del Vector}{10}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Proceso de Optimización (Diseño Metaheurístico)}{10}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Experimentación y Resultados}{11}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Medidas y Métricas Utilizadas}{11}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Configuraciones Experimentales}{11}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Resultados}{11}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Conclusiones}{13}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Aportación al estado del arte}{13}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Aportación al área de investigación}{13}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Trabajo futuro}{13}{section.6.3}%
-\contentsline {chapter}{\numberline {A}Anexo 1 }{15}{appendix.Alph1}%
-\contentsline {chapter}{Bibliografía}{16}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {5}Experimentación y Resultados}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Medidas y Métricas Utilizadas}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Configuraciones Experimentales}{13}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Resultados}{13}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Conclusiones}{15}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Aportación al estado del arte}{15}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Aportación al área de investigación}{15}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Trabajo futuro}{15}{section.6.3}%
+\contentsline {chapter}{\numberline {A}Anexo 1 }{17}{appendix.Alph1}%
+\contentsline {chapter}{Bibliografía}{18}{appendix.Alph1}%
