@@ -3,12 +3,19 @@
 La metodología se estructura sistemáticamente para asegurar su reproducibilidad técnica, dividiéndose en las siguientes fases:
 
 \section{Adquisición de Datos e Inoculación}
-\begin{itemize}
-    \item Se utilizaron imágenes de higos de la variedad Calabacita adquiridos utilizando una cámara hiperespectral line-scan (pushbroom) modelo SPECIM FX10, la cual opera en el rango VNIR (400 nm a 1000 nm) con una resolución espectral de 448 bandas \cite{cruz-carrasco_detection_2024, specim_specim_2020}.
-    \item La población se dividió en una clase de control sana (Clase 0) y una clase infectada (Clase 1) \cite{cruz-carrasco_detection_2024}. 
-    \item La inoculación se realizó sumergiendo la porción inferior de los higos durante 4-5 segundos en una solución con la cepa \textit{Aspergillus flavus} HG 144M a una concentración severa de $10^{7}$ CFU/mL \cite{cruz-carrasco_detection_2024}.
-    \item Las muestras reposaron en una cámara de incubación controlada a 25°C con una humedad relativa del 80-90\% \cite{cruz-carrasco_detection_2024}.
-\end{itemize}
+\subsection{Material Biológico y Procedencia}
+Para el desarrollo de esta investigación, se utilizaron muestras de higos frescos (Ficus carica L.) correspondientes a la variedad Calabacita. Con el fin de garantizar la uniformidad fisiológica del lote de estudio, todas las muestras fueron recolectadas simultáneamente en la "Finca La Orden-Valdesequera", una instalación agro-tecnológica operada por el Centro de Investigaciones Científicas y Tecnológicas de Extremadura (CICYTEX), ubicada en la región de Guadajira, Badajoz, España.
+
+\subsection{Diseño Experimental y Proceso de Inoculación}
+El protocolo de inoculación fue ejecutado bajo condiciones controladas de laboratorio por ingenieros agrícolas del CICYTEX. Para el diseño del experimento, la población total de frutos se distribuyó en cuatro bandejas independientes, albergando cada una entre 36 y 40 higos. Una de estas bandejas se mantuvo libre de patógenos para fungir como el grupo de control sano (Clase 0).
+
+Las muestras de las tres bandejas restantes fueron sometidas a un proceso de inoculación artificial, el cual consistió en sumergir la porción inferior de cada fruto durante un lapso de 4 a 5 segundos en una solución fúngica. Se utilizó específicamente la cepa Aspergillus flavus HG 144M, provista por la colección del grupo de investigación CAMIALI de la Universidad de Extremadura.
+Para evaluar la progresión de la enfermedad, las soluciones se prepararon en tres concentraciones distintas: $10^3 UFC/ml$, $10^5 UFC/ml$ y $10^7 UFC/ml$. Sin embargo, para los alcances del presente trabajo computacional, centrado en la clasificación binaria, el conjunto de datos de trabajo se construyó utilizando únicamente el grupo de control sano (Clase 0) y el grupo inoculado con la infección más severa de $10^7 CFU/ml$ (Clase 1).
+
+\subsection{Condiciones de Incubación y Monitoreo Temporal}
+Entre las sesiones de adquisición de imágenes, las muestras reposaron en una cámara de incubación bajo un ambiente estrictamente controlado. La cámara se configuró para mantener una temperatura constante de 25°C y una humedad relativa de entre 80\% y 90\%, proporcionando las condiciones ambientales óptimas para la proliferación fúngica.
+
+El monitoreo de las muestras se realizó mediante la captura de imágenes hiperespectrales cada 24 horas durante un periodo de cinco días consecutivos posteriores a la inoculación. La adquisición se efectuó empleando una cámara hiperespectral line-scan (pushbroom) modelo SPECIM FX10. El sensor de este dispositivo captura la reflectancia en el rango espectral visible e infrarrojo cercano (VNIR, 400 nm a 1000 nm), ofreciendo una resolución espectral de 448 bandas y una resolución espacial de 1024 píxeles de ancho por cada línea de escaneo \cite{cruz-carrasco_detection_2024}.
 
 \section{Preprocesamiento de Imágenes}
 El procesamiento de los datos espaciales y espectrales, así como la extracción inicial de características, se llevó a cabo apoyándose en la biblioteca Spectral Python (SPy) para la manipulación y análisis algorítmico de los cubos hiperespectrales. Como primer paso en el flujo de trabajo, se procedió a la lectura e interpretación de los archivos de encabezado (.hdr) y los archivos de datos binarios (.raw) generados por el sensor SPECIM FX10, lo que permitió reconstruir digitalmente las escenas adquiridas.
