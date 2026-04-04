@@ -1,2 +1,11 @@
 \glossaryentry{ICR?\glossentry{icr}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{HSI?\glossentry{hsi}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{GA?\glossentry{ga}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{PSO?\glossentry{pso}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{SVM?\glossentry{svm}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{RBF?\glossentry{rbf}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{CFU?\glossentry{cfu}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{FCNN?\glossentry{fcnn}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
+\glossaryentry{VNIR?\glossentry{vnir}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}
 \glossaryentry{"\ensuremath {2 "\times "\dfrac {Precision "\times Recall}{Precision + Recall}}?\glossentry{fscore}|setentrycounter[]{page}"\glsnumberformat}{\es@scroman  {i}}

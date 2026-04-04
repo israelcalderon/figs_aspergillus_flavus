@@ -1,3 +1,19 @@
-\chapter{Experimentación y resultados \label{cap:ExperimentacionResultados}}
+\chapter{Experimentación y Resultados}
 
-// Una forma de organizar las subsecciones de la experimentación y resultados es: a) iniciar con las medidas utilizadas; b) luego describir las configuraciones experimentales y; c) por ultimo, presentar los resultados de estos experimentos, es frecuente, evaluar la precisión, la velocidad o la tasa de error.
+\section{Medidas y Métricas Utilizadas}
+Para evaluar la aptitud funcional de las bandas seleccionadas, la métrica elegida fue el F1-Score \cite{cruz-carrasco_detection_2024}. Esta medida es fundamental porque balancea la precisión y la exhaustividad (recall), penalizando rigurosamente los falsos negativos (clasificar un higo infectado como sano), un escenario que representa un riesgo inaceptable para la seguridad alimentaria \cite{cruz-carrasco_detection_2024}.
+
+\section{Configuraciones Experimentales}
+Ambos algoritmos metaheurísticos fueron ejecutados de manera independiente 30 veces para cada tamaño de subconjunto objetivo ($k \in \{3, 5, 6\}$) \cite{eiben_introduction_2015}. 
+\begin{itemize}
+    \item \textbf{Algoritmo Genético:} Se configuró con 350 generaciones, un tamaño de población de 250, selección por torneo de 2 competidores, cruce de un solo punto y una tasa de mutación de 2.5 \cite{eiben_introduction_2015}.
+    \item \textbf{PSO:} Se parametrizó con 650 iteraciones, 200 partículas, una inercia estática de 0.7 y una tasa de mutación de 0.2. Se aplicaron Coeficientes de Aceleración Variables en el Tiempo (TVAC), donde el componente cognitivo decrementó linealmente de 2.5 a 0.4 y el componente social incrementó de 0.4 a 2.5 \cite{ratnaweera_self-organizing_2004}.
+    \item \textbf{Clasificador SVM:} El evaluador rápido operó con una regularización fija de 1.0 y validación cruzada k-fold ($k=3$), mientras que el evaluador exhaustivo empleó una búsqueda en cuadrícula (C de 0.1 a 1000, Gamma de 0.001 a 1) con validación k-fold ($k=5$) \cite{nagasubramanian_hyperspectral_2018}.
+\end{itemize}
+
+\section{Resultados}
+\begin{itemize}
+    \item \textbf{Impacto de la Construcción de Características:} La inclusión de la desviación estándar ($\mu + \sigma$) mejoró notablemente el rendimiento en comparación con el uso exclusivo de la reflectancia media. El F1-Score promedio del GA mejoró un +9.2\% para 3 bandas, +7.2\% para 5 bandas, y +5.2\% para 6 bandas \cite{cruz-carrasco_detection_2024}. La información textural estabiliza el espacio de búsqueda y acelera la convergencia \cite{cruz-carrasco_detection_2024}.
+    \item \textbf{Rendimiento Algorítmico (GA vs PSO):} El GA mostró una diferencia marginal favorable, exhibiendo una mediana de F1-Score superior y rangos intercuartílicos más estrechos para subconjuntos de 5 y 6 bandas, indicando una mejor reproducibilidad y estabilidad \cite{cruz-carrasco_detection_2024}. Sin embargo, el PSO fue ligeramente superior para 3 bandas y logró encontrar el máximo absoluto global de todo el estudio con un F1-Score de 0.836 utilizando 5 bandas combinadas \cite{cruz-carrasco_detection_2024}.
+    \item \textbf{Interpretación Física:} Las bandas seleccionadas por los mejores individuos no se distribuyeron al azar, sino que se agruparon en regiones biológicamente consistentes con la infección patológica: 400-450 nm (absorción de pigmentos), 700-750 nm (cambios inducidos por estrés en la estructura celular) y 950-1000 nm (signos de deshidratación celular) \cite{mahlein_plant_2016, nicolai_nondestructive_2007}.
+\end{itemize}

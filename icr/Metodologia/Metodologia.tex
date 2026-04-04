@@ -1,4 +1,33 @@
-\chapter{Metodología \label{cap:Metodologia}}
+\chapter{Metodología}
 
+La metodología se estructura sistemáticamente para asegurar su reproducibilidad técnica, dividiéndose en las siguientes fases:
 
-// Este capítulo puede titularse Método o Metodología. Este capítulo debe parecerse a una receta. El lector debe conocer lo que hiciste y cómo lo hiciste. Después de leer esta sección el lector debe poder responder de manera positiva a la pregunta: ¿Es posible reproducir esta investigación? Puede incluir las siguientes secciones: Participantes, hardware y software utilizado, procedimiento, diseño.
+\section{Adquisición de Datos e Inoculación}
+\begin{itemize}
+    \item Se utilizaron imágenes de higos de la variedad Calabacita adquiridos utilizando una cámara hiperespectral line-scan (pushbroom) modelo SPECIM FX10, la cual opera en el rango VNIR (400 nm a 1000 nm) con una resolución espectral de 448 bandas \cite{cruz-carrasco_detection_2024, specim_specim_2020}.
+    \item La población se dividió en una clase de control sana (Clase 0) y una clase infectada (Clase 1) \cite{cruz-carrasco_detection_2024}. 
+    \item La inoculación se realizó sumergiendo la porción inferior de los higos durante 4-5 segundos en una solución con la cepa \textit{Aspergillus flavus} HG 144M a una concentración severa de $10^{7}$ CFU/mL \cite{cruz-carrasco_detection_2024}.
+    \item Las muestras reposaron en una cámara de incubación controlada a 25°C con una humedad relativa del 80-90\% \cite{cruz-carrasco_detection_2024}.
+\end{itemize}
+
+\section{Preprocesamiento de Imágenes}
+\begin{itemize}
+    \item Las imágenes adquiridas se calibraron radiométricamente usando referencias claras y oscuras para convertir la intensidad bruta en reflectancia relativa \cite{cruz-carrasco_detection_2024}.
+    \item Se realizó una segmentación manual empleando el software de código abierto LabelMe, aislando 560 muestras individuales (277 controles y 283 inoculadas) \cite{wada_wkentarolabelme_2021}.
+\end{itemize}
+
+\section{Extracción de Características y Construcción del Vector}
+\begin{itemize}
+    \item Para capturar tanto el impacto espectral como la textura superficial, se extrajo la media ($\mu$) y la desviación estándar ($\sigma$) de la reflectancia de los píxeles dentro de cada región de interés para cada banda \cite{hossain_color_2019, nagasubramanian_hyperspectral_2018}.
+    \item El espacio de búsqueda de optimización se configuró como un problema de selección de bandas, donde seleccionar una banda específica implica incluir simultáneamente su media y su desviación estándar en el vector del clasificador \cite{nagasubramanian_hyperspectral_2018}.
+\end{itemize}
+
+\section{Proceso de Optimización (Diseño Metaheurístico)}
+\begin{itemize}
+    \item Se implementaron GA y PSO para buscar un vector binario que maximice el rendimiento de clasificación, con tamaños de subconjuntos objetivo de 3, 5 y 6 bandas \cite{eiben_introduction_2015}.
+    \item Para mitigar la carga computacional iterativa, se diseñó una estrategia de evaluación en dos etapas: 
+    \begin{itemize}
+        \item \textbf{Evaluador rápido:} Un modelo SVM ligero configurado para estimar la aptitud de los individuos rápidamente y guiar la búsqueda del algoritmo \cite{nagasubramanian_hyperspectral_2018}.
+        \item \textbf{Evaluador exhaustivo:} Un ajuste fino de hiperparámetros utilizado únicamente sobre el mejor subconjunto encontrado al final de la optimización \cite{nagasubramanian_hyperspectral_2018}. Antes del entrenamiento, los datos fueron normalizados con StandardScaler.
+    \end{itemize}
+\end{itemize}

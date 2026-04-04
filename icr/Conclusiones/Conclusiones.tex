@@ -1,5 +1,10 @@
-\chapter{Conclusiones \label{cap:Conclusiones}}
+\chapter{Conclusiones}
 
-// Este capítulo resume las contribuciones de tu ICR, puede separarse en secciones como: aportación al estado del arte, aportación al área de investigación. Por último, esboza direcciones futuras de la ICR.
+\section{Aportación al estado del arte}
+Este trabajo demostró con éxito que los algoritmos metaheurísticos poseen capacidades de optimización comparables y sumamente robustas para abordar la selección de bandas espectrales en patología agrícola \cite{sawant_survey_2020}. La metodología propuesta consiguió comprimir datos hiperespectrales de altísima dimensionalidad hacia un subconjunto compacto de variables, permitiendo mantener la precisión predictiva eliminando simultáneamente el profundo costo computacional que exige el procesamiento del espectro completo \cite{sawant_survey_2020}.
 
+\section{Aportación al área de investigación}
+El estudio valida empíricamente que la inclusión de métricas de variabilidad espacial, como la desviación estándar de la reflectancia, es crítica para la clasificación de infecciones fúngicas \cite{nagasubramanian_hyperspectral_2018}. Los resultados confirman que al añadir este componente textural, los subconjuntos de dimensionalidad baja incrementan drásticamente su precisión diagnóstica \cite{nagasubramanian_hyperspectral_2018}. Además, se comprobó la consistencia física del método computacional al demostrar que las bandas matemáticamente óptimas corresponden directamente a las alteraciones fisiológicas inducidas por la colonización fúngica, tales como la alteración de pigmentos y el estrés hídrico de los tejidos \cite{mahlein_plant_2016, nicolai_nondestructive_2007}.
 
+\section{Trabajo futuro}
+Basados en los resultados presentes, el futuro de esta línea de investigación debe dirigirse hacia la Exploración de Optimización Multiobjetivo, buscando algoritmos que encuentren frentes de Pareto para maximizar la precisión mientras minimizan iterativamente la cantidad de bandas sin depender de tamaños objetivo fijos \cite{deb_multi-objective_2001}. Asimismo, se planea implementar clasificadores avanzados más robustos ante relaciones no lineales, como Random Forest o XGBoost \cite{nagasubramanian_hyperspectral_2018}. Finalmente, el desarrollo de estrategias co-evolutivas permitirá que las poblaciones de bandas seleccionadas y los hiperparámetros de los modelos clasificadores evolucionen de manera simultánea, descubriendo combinaciones espectrales altamente complejas y eficientes \cite{deb_multi-objective_2001}.

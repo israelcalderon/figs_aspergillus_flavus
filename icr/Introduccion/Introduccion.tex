@@ -1,28 +1,37 @@
-\chapter{Introducción \label{cap:Introduccion}}
-
-// La introducción debe dar el contexto de la investigación, introducir el problema, esbozar el enfoque para resolver el problema y la solución o resultados principales. Al final debes mencionar como está estructurado tu documento. Se escribe al final pero antes del resumen.
+\chapter{Introducción}
 
 \section{Planteamiento del problema}
+La seguridad alimentaria y la sostenibilidad económica en la agricultura se enfrentan a una amenaza constante debido a la contaminación por hongos patógenos \cite{cruz-carrasco_detection_2024}. El hongo \textit{Aspergillus flavus} destaca por su alta peligrosidad, ya que es el principal productor de aflatoxinas, metabolitos secundarios clasificados como carcinógenos humanos del Grupo 1 \cite{cruz-carrasco_detection_2024}. La detección de este patógeno es un problema crítico, especialmente en cultivos de alto valor económico como el higo (\textit{Ficus carica}), donde regiones como Extremadura, en España, lideran la producción \cite{cruz-carrasco_detection_2024}. Tradicionalmente, la identificación de estas micotoxinas depende de métodos químicos analíticos (como HPLC o ELISA) que resultan destructivos, costosos y sumamente lentos, lo cual impide la inspección del 100\% de la producción agrícola \cite{chu_classifying_2020, park_hyperspectral_2015}. Aunque las Imágenes Hiperespectrales (HSI) ofrecen una solución no invasiva, la inmensa cantidad de datos generados por las cientos de bandas contiguas presenta un desafío computacional significativo, conocido como la maldición de la dimensionalidad \cite{wang_review_2021, chu_classifying_2020, hughes_mean_1968}. El problema fundamental radica en cómo procesar eficientemente esta alta dimensionalidad para lograr una detección certera en sistemas de inspección.
 
 \section{Justificación}
+Resolver este cuello de botella computacional es imperativo para trasladar la tecnología de laboratorio a la industria y permitir inspecciones no destructivas de toda la producción. La reducción de la dimensionalidad mediante la selección inteligente de bandas espectrales es un paso crucial, ya que el uso de espectros completos requiere hardware sumamente costoso y un alto poder de cómputo \cite{sawant_survey_2020}. Al mitigar estos requerimientos, los beneficios directos impactan la salud pública al evitar el consumo de aflatoxinas y protegen económicamente a la industria agrícola al prevenir el rechazo de lotes completos de exportación \cite{cruz-carrasco_detection_2024}. 
 
 \section{Objetivos}
 
 \textbf{Objetivo general}
 \begin{itemize}
-	\item Objetivo general.
+    \item Evaluar un enfoque híbrido de selección de bandas hiperespectrales mediante algoritmos metaheurísticos y máquinas de vectores de soporte para optimizar la detección no invasiva de \textit{Aspergillus flavus} en higos frescos \cite{cruz-carrasco_detection_2024}.
 \end{itemize}
 
 \textbf{Objetivos específicos}
-
 \begin{itemize}
-	\item Objetivo específico 1.
- 
- 	\item Objetivo específico 2.
-  
-	\item Objetivo específico 3.  
+    \item Extraer características espectrales, específicamente la reflectancia media y la desviación estándar, a partir de regiones de interés segmentadas en imágenes hiperespectrales de higos \cite{cruz-carrasco_detection_2024}.
+    \item Implementar Algoritmos Genéticos y Optimización por Enjambre de Partículas para identificar subconjuntos óptimos de tres, cinco y seis bandas espectrales \cite{eiben_introduction_2015}.
+    \item Comparar el rendimiento de los subconjuntos seleccionados evaluando la función de aptitud mediante la métrica F1-Score en un algoritmo de Máquina de Vectores de Soporte \cite{deb_multi-objective_2001}.
+\end{itemize}
+
+\textbf{Alcances y Limitaciones}
+\begin{itemize}
+    \item \textbf{Alcances:} El estudio aborda la clasificación binaria entre muestras de control sanas y muestras inoculadas con una concentración severa del hongo de $10^{7}$ CFU/mL \cite{cruz-carrasco_detection_2024}. La captura de datos abarca el rango espectral visible e infrarrojo cercano (VNIR) de 400 nm a 1000 nm \cite{specim_specim_2020}. La optimización se limita al uso de GA y PSO, y la clasificación se realizará exclusivamente con SVM utilizando un kernel de Función de Base Radial (RBF) \cite{musci_ice_2020, nagasubramanian_hyperspectral_2018}.
+    \item \textbf{Limitaciones:} El desarrollo experimental está acotado al análisis de una única variedad de higo (Calabacita) cultivada en una región específica, y la contaminación se simuló en condiciones controladas de laboratorio utilizando una única cepa del hongo (HG 144M) \cite{cruz-carrasco_detection_2024}.
 \end{itemize}
 
 \section{Principales contribuciones}
+\begin{itemize}
+    \item Implementación de una estrategia de construcción de características que concatena la reflectancia media y la desviación estándar espacial, logrando capturar simultáneamente la tendencia espectral y la heterogeneidad textural de la piel del higo infectado \cite{hossain_color_2019, nagasubramanian_hyperspectral_2018}.
+    \item Reducción drástica de la complejidad computacional de los datos hiperespectrales, validando que un conjunto reducido de bandas (e.g., cinco bandas) puede alcanzar un rendimiento superior al 83\% en la métrica F1-Score \cite{cruz-carrasco_detection_2024}.
+    \item Identificación y correlación física de las bandas seleccionadas con regiones biológicamente relevantes del espectro electromagnético, vinculadas a cambios de pigmentación, estructura celular y contenido de agua inducidos por el patógeno \cite{mahlein_plant_2016, nicolai_nondestructive_2007}.
+\end{itemize}
 
 \section{Organización del documento}
+El Capítulo 2 establece el marco teórico fundamental sobre imágenes hiperespectrales y algoritmos de optimización. El Capítulo 3 analiza el estado del arte y las metodologías contemporáneas. El Capítulo 4 detalla rigurosamente la metodología propuesta, desde la adquisición de datos hasta la estrategia computacional. El Capítulo 5 expone las métricas, la configuración de la experimentación y el análisis exhaustivo de los resultados. Finalmente, el Capítulo 6 presenta las conclusiones y delinea el trabajo futuro.

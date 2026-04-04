@@ -1,3 +1,11 @@
-\chapter{Marco teórico \label{cap:MarcoTeorico}}
+\chapter{Marco Teórico}
 
-// En este capítulo se presentan y describen las teorías, modelos, técnicas, métodos que son base para tu investigación.
+Las Imágenes Hiperespectrales (HSI) constituyen una tecnología revolucionaria que, a diferencia de la visión artificial convencional, captura información espectral detallada a lo largo de cientos de bandas contiguas para cada píxel \cite{wang_review_2021, chu_classifying_2020}. Esto permite la detección de cambios fisicoquímicos sutiles en los tejidos vegetales antes de que los síntomas sean visibles para el ojo humano \cite{wang_review_2021, chu_classifying_2020}. Sin embargo, la alta correlación entre bandas contiguas genera redundancia y desencadena el fenómeno de Hughes, o maldición de la dimensionalidad, donde la precisión de clasificación disminuye a medida que aumenta el número de bandas para un número limitado de muestras \cite{hughes_mean_1968, sawant_survey_2020}.
+
+Para resolver este problema, la selección de bandas es una estrategia efectiva que elimina la redundancia preservando las características discriminatorias \cite{sawant_survey_2020}. En este contexto destacan los enfoques metaheurísticos:
+\begin{itemize}
+    \item \textbf{Algoritmos Genéticos (GA):} Son técnicas de optimización bioinspiradas en la evolución natural \cite{eiben_introduction_2015}. Codifican soluciones candidatas como vectores y aplican operadores evolutivos de selección, cruce y mutación a lo largo de sucesivas generaciones para evitar convergencias prematuras y favorecer la exploración global \cite{deb_multi-objective_2001, eiben_introduction_2015}.
+    \item \textbf{Optimización por Enjambre de Partículas (PSO):} Es una metaheurística estocástica inspirada en el comportamiento colectivo de las bandadas de aves \cite{eiben_introduction_2015}. Modela a la población como partículas en un espacio n-dimensional, donde la trayectoria de cada partícula es gobernada por una velocidad actualizada mediante una suma ponderada de componentes de inercia, cognitivos y sociales \cite{eiben_introduction_2015, ratnaweera_self-organizing_2004}.
+\end{itemize}
+
+Finalmente, para evaluar la idoneidad de las características extraídas, se requiere un modelo de clasificación supervisada. La Máquina de Vectores de Soporte (SVM) se utiliza por su probada robustez en espacios de alta dimensionalidad y su eficacia con conjuntos de datos limitados \cite{nagasubramanian_hyperspectral_2018}.
