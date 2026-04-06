@@ -1,6 +1,13 @@
 \chapter{Metodología}
+La metodología desarrollada en este trabajo de investigación se estructuró sistemáticamente en tres fases secuenciales para garantizar su rigor y reproducibilidad técnica como se ilustra en la Figura \ref{fig:metodologia_flowchart}.
 
-La metodología se estructura sistemáticamente para asegurar su reproducibilidad técnica, dividiéndose en las siguientes fases:
+En primer lugar, se llevó a cabo la adquisición de datos, la cual consistió en la inoculación controlada de los frutos y la captura temporal de sus firmas hiperespectrales. La segunda fase se centró en el preprocesamiento computacional de las imágenes, abarcando la corrección radiométrica, la segmentación espacial de las regiones de interés (ROI) y la posterior extracción de métricas estadísticas representativas (reflectancia media y desviación estándar) para cada muestra. Finalmente, la tercera fase consistió en el diseño e implementación de una estrategia de optimización basada en algoritmos metaheurísticos, cuya aptitud fue evaluada mediante un modelo de Máquina de Vectores de Soporte (SVM). El objetivo de esta última etapa fue reducir drásticamente la dimensionalidad del espacio de datos e identificar el subconjunto óptimo de bandas espectrales para la detección de \textit{Aspergillus flavus}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{metodology_flow_chart.jpg}
+    \caption{Diagrama de flujo de la metodología computacional propuesta}
+    \label{fig:metodologia_flowchart}
+\end{figure}
 
 \section{Adquisición de Datos e Inoculación}
 \subsection{Material Biológico y Procedencia}
@@ -10,7 +17,7 @@ Para el desarrollo de esta investigación, se utilizaron muestras de higos fresc
 El protocolo de inoculación fue ejecutado bajo condiciones controladas de laboratorio por ingenieros agrícolas del CICYTEX. Para el diseño del experimento, la población total de frutos se distribuyó en cuatro bandejas independientes, albergando cada una entre 36 y 40 higos. Una de estas bandejas se mantuvo libre de patógenos para fungir como el grupo de control sano (Clase 0).
 
 Las muestras de las tres bandejas restantes fueron sometidas a un proceso de inoculación artificial, el cual consistió en sumergir la porción inferior de cada fruto durante un lapso de 4 a 5 segundos en una solución fúngica. Se utilizó específicamente la cepa Aspergillus flavus HG 144M, provista por la colección del grupo de investigación CAMIALI de la Universidad de Extremadura.
-Para evaluar la progresión de la enfermedad, las soluciones se prepararon en tres concentraciones distintas: $10^3 UFC/ml$, $10^5 UFC/ml$ y $10^7 UFC/ml$. Sin embargo, para los alcances del presente trabajo computacional, centrado en la clasificación binaria, el conjunto de datos de trabajo se construyó utilizando únicamente el grupo de control sano (Clase 0) y el grupo inoculado con la infección más severa de $10^7 CFU/ml$ (Clase 1).
+Para evaluar la progresión de la enfermedad, las soluciones se prepararon en tres concentraciones distintas: $10^3 UFC/ml$, $10^5 UFC/ml$ y $10^7 UFC/ml$. Sin embargo, para los alcances del presente trabajo computacional, centrado en la clasificación binaria, el conjunto de datos de trabajo se construyó utilizando únicamente el grupo de control sano (Clase 0) y el grupo inoculado con la infección más severa de $10^7 UFC/ml$ (Clase 1).
 
 \subsection{Condiciones de Incubación y Monitoreo Temporal}
 Entre las sesiones de adquisición de imágenes, las muestras reposaron en una cámara de incubación bajo un ambiente estrictamente controlado. La cámara se configuró para mantener una temperatura constante de 25°C y una humedad relativa de entre 80\% y 90\%, proporcionando las condiciones ambientales óptimas para la proliferación fúngica.
@@ -31,7 +38,7 @@ Donde $I_{raw}$ corresponde a la intensidad de la imagen bruta, $I_{dark}$ repre
 Posterior a la calibración, y con el fin de procesar la información espectral de cada fruto de manera individualizada y libre del ruido de fondo, se procesaron un total de 18 escenas hiperespectrales completas. El aislamiento espacial de las Regiones de Interés (ROI) se efectuó a través de una segmentación manual utilizando el software de anotación de código abierto LabelMe (v5.8.3)\cite{wada_wkentarolabelme_2021}.
 Este meticuloso proceso dio como resultado la generación de 560 máscaras de segmentación individuales. Consecuentemente, el conjunto de datos de trabajo final quedó constituido por estas 560 muestras independientes, distribuidas en 277 muestras pertenecientes a la clase de control sana (Clase 0) y 283 muestras correspondientes a la clase inoculada con la concentración severa (Clase 1).
 
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \subfloat[]{\includegraphics[width=0.4\textwidth]{sample_figs_tray.png}}
     \hspace{1mm}
@@ -41,10 +48,32 @@ Este meticuloso proceso dio como resultado la generación de 560 máscaras de se
 \end{figure}
 
 \section{Extracción de Características y Construcción del Vector}
-\begin{itemize}
-    \item Para capturar tanto el impacto espectral como la textura superficial, se extrajo la media ($\mu$) y la desviación estándar ($\sigma$) de la reflectancia de los píxeles dentro de cada región de interés para cada banda \cite{hossain_color_2019, nagasubramanian_hyperspectral_2018}.
-    \item El espacio de búsqueda de optimización se configuró como un problema de selección de bandas, donde seleccionar una banda específica implica incluir simultáneamente su media y su desviación estándar en el vector del clasificador \cite{nagasubramanian_hyperspectral_2018}.
-\end{itemize}
+La información contenida en las imágenes hiperespectrales es masiva y altamente redundante entre bandas contiguas. Para modelar el problema de clasificación, fue necesario transformar los datos puros de los píxeles dentro de cada Región de Interés (ROI) en descriptores matemáticos \cite{sawant_survey_2020}.
+Esta característica conlleva a la llamada \textit{maldición de la dimensionalidad} o fenomeno de Hughes, donde la presición de la clasificación tienede a decrecer conforme el número de bandas espectrales se incrementa dado un número limitado de muestras de entrenamiento \cite{hughes_mean_1968}.
+
+Con el objetivo de capturar tanto el impacto fisiológico interno (cambios en la pigmentación y contenido de agua) como las alteraciones en la textura superficial del fruto, se diseñó una estrategia de construcción de características basada en dos momentos estadísticos:
+
+\begin{enumerate}
+    \item Reflectancia Media ($\mu$): Caracteriza la tendencia central de la firma espectral, indicando la cantidad de luz promedio que el tejido absorbe o refleja en una longitud de onda específica \cite{nagasubramanian_hyperspectral_2018}.
+    \item Desviación Estándar ($\sigma$): Cuantifica la variabilidad espacial o heterogeneidad en la superficie del fruto. Esta métrica es de suma importancia biológica, ya que la infección por Aspergillus flavus no es uniforme; la formación de micelio y la esporulación alteran la rugosidad superficial del higo, generando patrones de dispersión de luz irregulares que son capturados por esta medida de dispersión \cite{hossain_color_2019}.
+\end{enumerate}
+
+Formalmente, para una imagen hiperespectral con n bandas (donde $n=448$), el conjunto completo de características extraídas para la $i$-ésima muestra se definió mediante el siguiente vector concatenado:
+\begin{equation}
+    X_i=[\mu_i,1,\ldots \mu_i,n,\sigma_i,1,\ldots,\sigma_i,n]
+\end{equation}
+
+Este enfoque generó un vector inicial de 896 dimensiones por muestra (448 medias y 448 desviaciones estándar). Para mitigar la maldición de la dimensionalidad, el espacio de búsqueda de optimización se estructuró como un problema de selección de bandas.
+Bajo este esquema, la selección de una banda específica j implica la inclusión simultánea e indisoluble de su media ($\mu_j$) y su desviación estándar ($\sigma_j$).
+Por lo tanto, el algoritmo metaheurístico opera sobre un espacio de búsqueda binario de n dimensiones (donde 1 indica selección y 0 exclusión), pero la dimensionalidad real del vector de características que evalúa el clasificador es de $ 2\times{k} $, siendo $k$ el número objetivo de bandas seleccionadas ($k\in\{3, 5, 6\}$).
+
+El problema de optimización se definió formalmente como la búsqueda del vector binario $B=\{b1,...,bn\}$ que maximice la función de aptitud, se estableció el F1-Score como la función objetivo a maximizar:
+
+\begin{equation}
+    F1=2 \times{\frac{Precision\times{Recall}}{Precision+Recall}}
+\end{equation}
+
+Se eligio el F1-Score como la función de aptitud debido a su habilidad para balancear presición y sensibilidad. Es critico penalizar falsos negativos (higos infectados clasificados erroneamente como sanos), ya que representan un alto riesgo para la salud. Ademas, el F1-Score provee una métrica robusta ya que mitiga efectivamente el sesgo potencial introducido por la pequeña diferencia entre la cantidad de higos en Clase 0 y la Clase 1 en el conjunto de datos.
 
 \section{Proceso de Optimización (Diseño Metaheurístico)}
 \begin{itemize}
