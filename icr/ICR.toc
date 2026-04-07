@@ -16,14 +16,17 @@
 \contentsline {subsection}{\numberline {4.1.3}Condiciones de Incubación y Monitoreo Temporal}{11}{subsection.4.1.3}%
 \contentsline {section}{\numberline {4.2}Preprocesamiento de Imágenes}{12}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Extracción de Características y Construcción del Vector}{13}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Proceso de Optimización (Diseño Metaheurístico)}{14}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Experimentación y Resultados}{15}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Medidas y Métricas Utilizadas}{15}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Configuraciones Experimentales}{15}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Resultados}{15}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Conclusiones}{17}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Aportación al estado del arte}{17}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Aportación al área de investigación}{17}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Trabajo futuro}{17}{section.6.3}%
-\contentsline {chapter}{\numberline {A}Anexo 1 }{19}{appendix.Alph1}%
-\contentsline {chapter}{Bibliografía}{20}{appendix.Alph1}%
+\contentsline {section}{\numberline {4.4}Proceso de Optimización}{14}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Algoritmo Genético}{15}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Optimización por Enjambre de Partículas}{16}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Estrategia de Evaluación}{16}{subsection.4.4.3}%
+\contentsline {chapter}{\numberline {5}Experimentación y Resultados}{17}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Medidas y Métricas Utilizadas}{17}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Configuraciones Experimentales}{17}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Resultados}{17}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Conclusiones}{19}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Aportación al estado del arte}{19}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Aportación al área de investigación}{19}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Trabajo futuro}{19}{section.6.3}%
+\contentsline {chapter}{\numberline {A}Anexo 1 }{21}{appendix.Alph1}%
+\contentsline {chapter}{Bibliografía}{22}{appendix.Alph1}%

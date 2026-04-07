@@ -1,7 +1,7 @@
 \chapter{Metodología}
 La metodología desarrollada en este trabajo de investigación se estructuró sistemáticamente en tres fases secuenciales para garantizar su rigor y reproducibilidad técnica como se ilustra en la Figura \ref{fig:metodologia_flowchart}.
 
-En primer lugar, se llevó a cabo la adquisición de datos, la cual consistió en la inoculación controlada de los frutos y la captura temporal de sus firmas hiperespectrales. La segunda fase se centró en el preprocesamiento computacional de las imágenes, abarcando la corrección radiométrica, la segmentación espacial de las regiones de interés (ROI) y la posterior extracción de métricas estadísticas representativas (reflectancia media y desviación estándar) para cada muestra. Finalmente, la tercera fase consistió en el diseño e implementación de una estrategia de optimización basada en algoritmos metaheurísticos, cuya aptitud fue evaluada mediante un modelo de Máquina de Vectores de Soporte (SVM). El objetivo de esta última etapa fue reducir drásticamente la dimensionalidad del espacio de datos e identificar el subconjunto óptimo de bandas espectrales para la detección de \textit{Aspergillus flavus}.
+En primer lugar, se llevó a cabo la adquisición de datos, la cual consistió en la inoculación controlada de los frutos y la captura temporal de sus firmas hiperespectrales. La segunda fase se centró en el preprocesamiento computacional de las imágenes, abarcando la corrección radiométrica, la segmentación espacial de las regiones de interés (ROI) y la posterior extracción de métricas estadísticas representativas (reflectancia media y desviación estándar) para cada muestra. Finalmente, la tercera fase consistió en el diseño e implementación de una estrategia de optimización basada en algoritmos metaheurísticos, cuya aptitud fue evaluada mediante un modelo de Máquina de Soporte Vectorial (SVM). El objetivo de esta última etapa fue reducir drásticamente la dimensionalidad del espacio de datos e identificar el subconjunto óptimo de bandas espectrales para la detección de \textit{Aspergillus flavus}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{metodology_flow_chart.jpg}
@@ -49,7 +49,6 @@ Este meticuloso proceso dio como resultado la generación de 560 máscaras de se
 
 \section{Extracción de Características y Construcción del Vector}
 La información contenida en las imágenes hiperespectrales es masiva y altamente redundante entre bandas contiguas. Para modelar el problema de clasificación, fue necesario transformar los datos puros de los píxeles dentro de cada Región de Interés (ROI) en descriptores matemáticos \cite{sawant_survey_2020}.
-Esta característica conlleva a la llamada \textit{maldición de la dimensionalidad} o fenomeno de Hughes, donde la presición de la clasificación tienede a decrecer conforme el número de bandas espectrales se incrementa dado un número limitado de muestras de entrenamiento \cite{hughes_mean_1968}.
 
 Con el objetivo de capturar tanto el impacto fisiológico interno (cambios en la pigmentación y contenido de agua) como las alteraciones en la textura superficial del fruto, se diseñó una estrategia de construcción de características basada en dos momentos estadísticos:
 
@@ -75,12 +74,44 @@ El problema de optimización se definió formalmente como la búsqueda del vecto
 
 Se eligio el F1-Score como la función de aptitud debido a su habilidad para balancear presición y sensibilidad. Es critico penalizar falsos negativos (higos infectados clasificados erroneamente como sanos), ya que representan un alto riesgo para la salud. Ademas, el F1-Score provee una métrica robusta ya que mitiga efectivamente el sesgo potencial introducido por la pequeña diferencia entre la cantidad de higos en Clase 0 y la Clase 1 en el conjunto de datos.
 
-\section{Proceso de Optimización (Diseño Metaheurístico)}
-\begin{itemize}
-    \item Se implementaron GA y PSO para buscar un vector binario que maximice el rendimiento de clasificación, con tamaños de subconjuntos objetivo de 3, 5 y 6 bandas \cite{eiben_introduction_2015}.
-    \item Para mitigar la carga computacional iterativa, se diseñó una estrategia de evaluación en dos etapas: 
-    \begin{itemize}
-        \item \textbf{Evaluador rápido:} Un modelo SVM ligero configurado para estimar la aptitud de los individuos rápidamente y guiar la búsqueda del algoritmo \cite{nagasubramanian_hyperspectral_2018}.
-        \item \textbf{Evaluador exhaustivo:} Un ajuste fino de hiperparámetros utilizado únicamente sobre el mejor subconjunto encontrado al final de la optimización \cite{nagasubramanian_hyperspectral_2018}. Antes del entrenamiento, los datos fueron normalizados con StandardScaler.
-    \end{itemize}
-\end{itemize}
+\section{Proceso de Optimización}
+Aunque las imágenes hiperespectrales proporcionan una cantidad abundante de información, sufren de alta redundancía debido a la alta correlación entre bandas espectrales contiguas \cite{sawant_survey_2020}.
+Esta característica conlleva a la llamada \textit{maldición de la dimensionalidad} o fenomeno de Hughes, donde la presición de la clasificación tiende a decrecer conforme el número de bandas espectrales se incrementa dado un número limitado de muestras de entrenamiento \cite{hughes_mean_1968}.
+La figura \ref{fig:spectral_colrrelation_matrix} es una matríz de correlación de la reflectancia media de las bandas espectrales del conjunto de datos generado y comprueba que existe una alta redundancía entre las bandas contiguas.
+Las estructuras prominentes formadas en la diagonal de la matriz son indicadores de grupos de correlación con coeficientes cercanos a 1. Sumado a lo anterior el alto volumen de datos incrementa la carga computacional requerida para su procesamiento. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{spectral_colrrelation_matrix.png}
+    \caption{Matríz de correlación de medias de reflectancia.}
+    \label{fig:spectral_colrrelation_matrix}
+\end{figure}
+Para abordar estos desafíos, la selección de bandas ha demostrado ser una estrategia eficaz para la reducción de la dimensionalidad, permitiendo eliminar la redundancia y conservar, al mismo tiempo, las características espectrales con mayor poder discriminante \cite{sawant_survey_2020}\cite{nagasubramanian_hyperspectral_2018}.
+Se diseñó un enfoque de optimización basado en metaheurísticas para realizar la de selección de características y mitigar la maldición de la dimensionalidad.
+La meta principal fue encontrar un vector binario de 448 bits (donde un valor de \enquote{1} índica la selección de la banda espectral y \enquote{0} su exclusión) que maximizara la capacidad de clasificación del sistema para subconjuntos objetivo de $k\in\{3,5,6\}$ bandas. 
+Por el motivo anterior se implementaron y compararon dos algoritmos de optimización metaheurística: algoritmo genético (GA) y Optimización por Enjambre de Partículas (PSO). 
+
+\subsection{Algoritmo Genético}
+El Algoritmo Genético es una técnica de optimización bioinspirada en la evolución natural y la recombinación genética. En esta implementación, la población de soluciones candidatas (individuos) se codificó mediante la mencionada cadena binaria. A través de sucesivas generaciones, el algoritmo aplicó operadores evolutivos de selección (por torneo), cruce (de un solo punto) y mutación para explorar el espacio de soluciones \cite{eiben_introduction_2015}\cite{deb_multi-objective_2001}.
+La configuración paramétrica específica fue diseñada para evitar convergencias prematuras y favorecer la exploración de combinaciones espectrales complejas.
+
+\subsection{Optimización por Enjambre de Partículas}
+Como técnica estocástica alternativa, se implementó el algoritmo PSO, el cual modela la población como un enjambre de partículas que navegan en un espacio \textit{n}-dimensional. A diferencia de las metodologías estándar, para esta investigación se implementaron Coeficientes de Aceleración Variables en el Tiempo (TVAC).
+
+Esta modificación fue crucial para controlar dinámicamente el comportamiento del enjambre: el coeficiente cognitivo ($c_1$) decreció linealmente para incentivar la exploración global en las etapas iniciales, mientras que el coeficiente social ($c_2$)  se incrementó linealmente para promover la explotación local (convergencia) en las etapas finales del proceso iterativo. La actualización de las velocidades se rigió por las siguientes ecuaciones:
+\begin{equation}
+    c_1(t)=(c_{1,f}-c_{1,i}) \frac{t}{T_{max}}+C_{1,i}
+\end{equation}
+
+\begin{equation}
+    c_2(t)=(c_{2,f}-c_{2,i}) \frac{t}{T_{max}}+C_{2,i}
+\end{equation}
+
+Donde \textit{t} es la iteración actual, $T_{max}$ es el número máximo de iteraciones, y los subíndices \textit{i} y \textit{f} representan los valores iniciales y finales de cada coeficiente, respectivamente.
+
+\subsection{Estrategia de Evaluación}
+Para cuantificar la aptitud de los subconjuntos de bandas propuestos por el GA y el PSO, se utilizó una Máquina de Soporte Vectorial (SVM) con un kernel de Función de Base Radial (RBF). Sin embargo, evaluar iterativamente miles de soluciones candidatas exige un costo computacional excepcionalmente alto. Para mitigar este cuello de botella, se diseñó una estrategia de evaluación en dos etapas:
+\begin{enumerate}
+    \item Evaluador Rápido (Función de Aptitud): Se configuró un modelo SVM ligero, con regularización fija $C = 1.0$ y una validación cruzada $K = 3$. Su objetivo fue estimar rápidamente la aptitud (\textit{F1-Score}) de los individuos generados en cada iteración para guiar eficientemente la búsqueda de las metaheurísticas, priorizando la velocidad de ejecución sobre la exactitud absoluta.
+    \item Evaluador Exhaustivo (Ajuste Fino): Una vez que las metaheurísticas finalizaron su proceso iterativo y entregaron el subconjunto óptimo global de bandas, este se sometió a una optimización rigurosa de hiperparámetros mediante \textit{Grid Search } con: \textit{C} de 0.1 a 100 y Gamma de 0.001 a 1 y validación cruzada de $K=5$. Esto garantizó la extracción del máximo rendimiento predictivo del conjunto final.
+\end{enumerate}
