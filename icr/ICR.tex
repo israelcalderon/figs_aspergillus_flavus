@@ -11,7 +11,13 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{float}
 \usepackage[hidelinks]{hyperref}
+
+% Definición de columna centrada para tabularx
+\newcolumntype{C}{>{\centering\arraybackslash}X}
 
 %% Es para poner los márgenes en una impresión
 %% a ambas caras de la hoja
@@ -34,13 +40,16 @@
 
 \usepackage{float}
 \usepackage[autostyle=true]{csquotes}
+\usepackage{tabularx}
+\usepackage{array}
+
 
 \begin{document}
 
 \frontmatter
 \include{Portada/Portada}
 \include{Resumen/Resumen}
-\include{Agradecimientos/Dedicatoria}
+    \include{Agradecimientos/Dedicatoria}
 \include{Agradecimientos/Agradecimientos}
 
 \tableofcontents

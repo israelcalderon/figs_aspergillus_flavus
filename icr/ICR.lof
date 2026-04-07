@@ -9,5 +9,14 @@
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{13}{subfigure.2.2}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Matríz de correlación de medias de reflectancia.}}{15}{figure.caption.8}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Caracterización espectral de las muestras de higo. (\textbf {a}) Firmas de reflectancia media mostrando la tendencia central. (\textbf {b}) Desviación estándar de la reflectancia representando la variabilidad espacial (textura).}}{19}{figure.caption.12}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {\centering }}}{19}{subfigure.1.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\centering }}}{19}{subfigure.1.2}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Media de convergencia de las ejecuciones del algoritmo genetico durante 30 ejecuciones independientes para los escenarios: (\textbf {a}) 3 Bandas; (\textbf {b}) 5 Bandas; y (\textbf {c}) 6 Bandas.}}{21}{figure.caption.14}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {\centering }}}{21}{subfigure.2.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\centering }}}{21}{subfigure.2.2}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {\centering }}}{21}{subfigure.2.3}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Diagrama de cajas: comparación de GA vs. PSO con características ($\mu +\sigma $).}}{22}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Diagrama de cajas: comparación de GA vs. PSO únicamente con media ($\mu $).}}{22}{figure.caption.16}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
