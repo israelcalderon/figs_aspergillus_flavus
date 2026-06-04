@@ -48,7 +48,7 @@
 \address[4]{\orgdiv{Nutrición y Bromatología, Escuela de Ingenierías Agrarias}, \orgname{Universidad de Extremadura}, \orgaddress{Avd. Adolfo Suárez s/n, 06007 Badajoz, \country{Spain}}}
 \address[5]{\orgdiv{Instituto Universitario de Investigación en Recursos Agrarios (INURA)}, \orgname{Universidad de Extremadura}, \orgaddress{Avd. de la Investigación, 06006 Badajoz, \country{Spain}}}
 
-\corres{Juan Villegas Cortez (\email{juanvc@azc.uam.mx})}
+\corres{Israel Calderón Aguilar (\email{al2243804651@azc.uam.mx})}
 
 \keywords{Hyperspectral Imaging | \textit{Aspergillus flavus} | Machine Learning | Genetic Algorithm | Particle Swarm Optimization | Precision Agriculture | Support Vector Machine}
 
@@ -80,6 +80,8 @@ Current literature suggests that spectral band selection is a crucial step for p
 Statistical methods such as Principal Component Analysis (PCA) have traditionally been used to reduce data \cite{chu_classifying_2020}, but techniques based on evolutionary algorithms (such as GA and PSO) are gaining ground due to their ability to find global optimal solutions in complex search spaces \cite{sawant_survey_2020}.
 
 The main objective of this research work is to optimize the detection of the fungus \textit{Aspergillus flavus} in fresh figs using an evolutionary approach. The development of the engineering features strategy involved the implementation of a genetic algorithm as an intelligent spectral band selection. Support Vector Machine (SVM) was applied to assess the fitness of the individuals.
+
+Based on the advances obtained, this work concludes that the fusion of mean reflectance and standard deviation data allows achieving performance metrics (F1-Score) exceeding $83\%$. %$0.83$. 
 
 The results demonstrated that the GA identified an optimal set of five spectral bands, predominantly in the visible spectrum, with bands near the ultraviolet and near-infrared regions.
 These findings validate that it is possible to drastically reduce the complexity of hyperspectral data without compromising detection capability, offering a promising path for the agricultural industry.
@@ -137,7 +139,7 @@ Consequently, the final dataset consisted of 560 samples, distributed as 277 sam
 
 Data processing and feature extraction were conducted using the Spectral Python (SPy) library. 
 First, the header (.hdr) and binary (.raw) files were read to reconstruct the hyperspectral data cubes. 
-Raw intensity values were then converted into relative reflectance through radiometric calibration, using the white and dark references acquired with each scene, according to equation:
+Raw intensity values were then converted into relative reflectance through radiometric calibration, using the white and dark references acquired with each scene, according to equation \cite{morales_laboratory_2022}:
 
 \begin{equation}
     R=\dfrac{I_{raw}-I_{dark}}{I_{white}-I_{dark}}
@@ -222,7 +224,13 @@ The dynamic adjustment of these parameters follows standard literature recommend
     c_2(t)=(c_{2,f}-c_{2,i}) \frac{t}{T_{max}}+C_{2,i}
 \end{equation}
 
-Where $t$ is the current iteration, $T_{max}$ is the maximum number of iterations, $C_{1,i}, C_{2,i}$ are initial values, and $C_{1,f}, C_{2,f}$ are final values. 
+Where:
+\begin{itemize}
+    \item $t$: Current iteration.
+    \item $T_{max}$: Maximum number of iterations.
+    \item $C_{1,i}$,$C_{2,i}$: Coefficient initial values.
+    \item $C_{1,f}$,$C_{2,f}$: Coefficient final values.
+\end{itemize}
 The specific parameter settings used in this study are detailed in Table \ref{tab2}.
 
 \begin{table*}[!ht]
@@ -244,10 +252,12 @@ Given the non-linear nature of the spectral boundaries between healthy and infec
 \subsubsection{Computational Strategy}
 To mitigate the high computational overhead inherent to the iterative metaheuristic process (GA and PSO), a two stage evaluation strategy was implemented:
 \begin{enumerate}
-    \item Fast evaluator: A lightweight SVM configuration used as the wrapper within the fitness function.
+    \item Fast evaluator: A lightweight SVM configuration used as the wrapper within the fitness function. Its primary goal is to rapidly estimate how well perform the selected bands to guide the search algorithm, prioritizing the execution speed over hyperparameter tuning.
     \item Exhaustive evaluator: A rigorous final model, fine tuned via exhaustive hyperparameter search.
 \end{enumerate}
 
+Before training, data normalization, using StandardScaler, was applied to ensure that both feature types (mean reflectance and standard deviation) contribute equally to the distance calculation. 
+Finally, to ensure an unbiased evaluation, the winning model is evaluated on a test set that remained unseen during the optimization phase. 
 The configuration parameters for both implementations are detailed in Table \ref{tab3}.
 
 \begin{table*}[!ht]
@@ -266,8 +276,13 @@ Exhaustive evaluator & RBF & Grid search 0.1 to 1000 & Grid search 0.001 to 1 & 
 \section{Results}
 \subsection{Spectral Characterization of Samples}
 Figure \ref{fig:3}a displays the average spectral signatures relative to the healthy and infected fig samples across the full acquired spectral range (400--1000 nm). 
-The patterns are visually similar in the visible region, but differences become apparent in the Near Infrared (NIR) region. 
-Figure \ref{fig:3}b presents the standard deviation per wavelength, showing that infected samples have major variability.
+The shaded regions represent the standard deviation, illustrating the spectral variability within each class. 
+As observed, the spectral patterns of both classes are visually similar, particularly in the visible region (400--700 nm). 
+However, slight differences in reflectance intensity become more apparent in the Near Infrared (NIR) region (700--1000 nm), likely due to the structural degradation of the fig tissue caused by fungal colonization.
+This high spectral overlap confirms the complexity of the classification task. 
+Figure \ref{fig:3}b presents the standard deviation per wavelength.
+It is observed that infected samples have a major variability compared to the healthy ones.
+This visual evidence leads to support the premise that the fungal infection affects the textural heterogeneity on the fig skin.
 
 \begin{figure*}[!ht]
 \centering
@@ -277,8 +292,10 @@ Figure \ref{fig:3}b presents the standard deviation per wavelength, showing that
 \end{figure*}
 
 \subsection{Impact of Feature Construction}
+To validate the contribution of the standard deviation to the fungal classification, the band selection process was executed under two distinct feature configurations. 
+Initially, the optimization was performed using only the mean reflectance per band, followed by a second scenario utilizing the combined mean and standard deviation vector. 
 The optimization was conducted for target subset sizes of $k\in\{3,5,6\}$ over 30 independent runs. 
-Table \ref{tab4} compares the average F1-Score obtained by the GA.
+Table \ref{tab4} compares the average F1-Score obtained by the GA across both configurations.
 
 \begin{table*}[!ht]
 \centering
@@ -294,8 +311,9 @@ Table \ref{tab4} compares the average F1-Score obtained by the GA.
 \end{tabular*}
 \end{table*}
 
-Figure \ref{fig:4} illustrates the average convergence history for both feature configurations.
-
+In addition to the previous performance metrics, the evolutionary behavior of the optimization process was analyzed.
+Figure \ref{fig:4} illustrates the average convergence history over 30 independent runs for both feature configurations. 
+The solid lines represent the mean best fitness value at each generation, while the shaded regions indicate the standard deviation across runs.
 \begin{figure*}[!ht]
 \centering
 \subfloat[]{\includegraphics[width=5cm]{mean_convergence_3b.png}} 
@@ -303,11 +321,18 @@ Figure \ref{fig:4} illustrates the average convergence history for both feature 
 \subfloat[]{\includegraphics[width=5cm]{mean_convergence_6b.png}}
 \caption{Genetic Algorithm convergence profiles: (\textbf{a}) 3-band; (\textbf{b}) 5-band; and (\textbf{c}) 6-band optimization scenarios.\label{fig:4}}
 \end{figure*}
+It can be observed that the Combined Features ($\mu+\sigma$) strategy (represented by the blue line) not only starts with a higher initial fitness but also maintains a superior trajectory throughout the generations compared to the Mean Reflectance Only approach.  
+This convergence gap visually confirms that the additional textural information provides a more robust search space, allowing the proposed algorithm to find higher quality solutions more efficiently.
 
 \subsection{Comparative Analysis of Metaheuristic Algorithms}
-The analysis reveals that the GA has a marginal difference with PSO. 
-Specifically, GA exhibited a higher median F1-Score when $k=\{5, 6\}$. 
-The absolute maximum F1-Score of the entire study (0.836) was achieved by PSO using the 5-band subset with the ($\mu+\sigma$) configuration.
+After the validation of the feature construction, the study focused on comparing the optimization capabilities of the GA versus PSO. 
+To ensure statistical robustness, both algorithms were executed 30 times for each target subset size ($k\in\{3,5,6\}$) using the combined feature vector.
+
+The figure \ref{fig:5} presents the boxplots summarizing the distribution of the F1-Scores obtained. 
+The analysis reveals that the GA has a marginal difference with PSO in the context of hyperspectral band selection. 
+Specifically, GA exhibited a higher median F1-Score when $k=\{5, 6\}$ subset sizes, particularly in the most scenario (k=6), where it achieved a median value of 0.773. 
+However, PSO had a slight advantage in the 3 bands scenario. 
+Furthermore, the interquartile ranges for GA were consistently narrower compared to PSO, indicating superior algorithmic stability and reproducibility.
 
 \begin{figure}[!ht]
 \centering
@@ -315,6 +340,10 @@ The absolute maximum F1-Score of the entire study (0.836) was achieved by PSO us
 \caption{Boxplot comparison GA vs. PSO with ($\mu+\sigma$) features.}
 \label{fig:5}
 \end{figure}
+Notably, the absolute maximum F1-Score of the entire study (0.836) was achieved by PSO using the 5-band subset with the ($\mu+\sigma$) configuration.
+However, it is noteworthy that the configuration using only the mean ($\mu$) with 6 bands yielded a nearly identical score of 0.832. 
+This suggests that the inclusion of the standard deviation stabilizes the search process and improves classification performance when the feature subset is small (e.g., 3 bands); however, this advantage diminishes as more bands are added. 
+Figure \ref{fig:6} illustrates this phenomenon, showing how the variance in the solution space increases for the 6-band configuration that relies solely on the mean.
 
 \begin{figure}[!ht]
 \centering
@@ -325,32 +354,48 @@ The absolute maximum F1-Score of the entire study (0.836) was achieved by PSO us
 
 \section{Discussion}
 \subsection{Physical interpretation}
-The selected bands cluster in three different spectral regions: 400--450 nm (pigment absorption), 700--750 nm (red edge), and 950--1000 nm (water content).
+The spatial distribution of the selected bands in the best individuals was analyzed against the spectral signatures of the samples. 
+Figure \ref{fig:6} illustrates the mean reflectance spectra for healthy (green) and infected (red) figs, with the vertical blue dashed lines representing the bands of the best individuals selected by the GA across the 30 execution runs for $K\in\{3, 5, 6\}$.   
+
+The visualization reveals a not uniform distribution of selected bands; the bands cluster in three different spectral regions that correspond to known physiological changes caused by plant diseases.
+
+\begin{enumerate}
+    \item 400 -- 450 nm: A cluster of bands is observed in the lower visible spectrum. This region is associated with the absorption of pigments such as carotenoids and anthocyanins \cite{mahlein_plant_2016}.
+    \item 700 -- 750 nm: This accumulation of selected bands around the red edge (between visible red and near infra red) is sensitive to stress induced changes in cellular structure \cite{mahlein_plant_2016}. 
+    \item  950 - 1000 nm: The selected bands in the end of the selected spectrum coincides with second overtone of the O-H bond stretch, indicating possible signs of dehydration \cite{nicolai_nondestructive_2007}.
+\end{enumerate}
 
 \begin{figure*}[!ht]
 \centering
 \includegraphics[width=0.8\textwidth]{spectral_signature_selected_bands_ga.png}
-\caption{Mean reflectance spectral signature with selected bands indicated by the GA.}
+\caption{Mean reflectance spectral signature with vertical lines indicating the selected bands by the best individuals of the GA.}
 \label{fig:7}
 \end{figure*}
 
 \subsection{Conclusions and Future Work}
-This study presented a non invasive methodology for the detection of \textit{Aspergillus flavus} in figs using hyperspectral imaging coupled with metaheuristic band selection.
+This study presented a non invasive methodology for the detection of \textit{Aspergillus flavus} in figs using hyperspectral imaging coupled with metaheuristic band selection. 
+By constructing a statistical feature vector based on the spectral mean ($\mu$) and standard deviation ($\sigma$), the proposed approach successfully reduced the high dimensional hyperspectral data into a compact subset of informative variables.
 
 \subsubsection{Key findings}
 \begin{enumerate}
-    \item Algorithmic Performance: GA and PSO possess comparable optimization capabilities.
-    \item Feature relevance: Inclusion of standard deviation significantly improved performance in lower dimensional subsets.
-    \item Physical Consistency: Selected bands correspond with relevant biological regions.
+    \item Algorithmic Performance: In the majority of cases, the GA exhibited slightly better average performance compared to PSO. However, PSO identified the global maximum, the absolute best solution. This indicates that both metaheuristics possess comparable optimization capabilities for this spectral selection task.
+    \item Feature relevance: The results highlighted that, on average, the inclusion of the standard deviation ($\mu+\sigma$) significantly improved performance in lower dimensional subsets ($k\in\{3,5\}$). However, as the number of selected bands increases, this performance gain becomes marginal, suggesting that the added complexity of the standard deviation is less critical when more spectral information is available.
+    \item Physical Consistency: The spectral bands selected correspond with relevant biological regions; they are aligned with the visible pigmentation changes and NIR water content regions. 
 \end{enumerate}
 
 \subsubsection{Future work}
-Future iterations might employ multi-objective optimization, explore more advanced machine learning algorithms, and investigate co-evolutionary techniques.
+Having the current results in mind several paths for future work have been identified to further enhance the system performance:
 
+\begin{itemize}
+    \item Multi-Objective Optimization: Instead of constrain the search to a fixed or arbitrary number of bands, as done in the present work, future iterations might employ multi-objective optimization algorithms. The goal is to maximize the F1-Score and minimize the number of bands, thereby finding the optimal Pareto front that balances classification accuracy with system simplicity.
+    \item Advanced Classifiers: While the SVM classifier used demonstrated solid performance, we aim to explore more other machine learning algorithms such as Random Forest and XGBoost, which may offer better handling of the non linear interactions of the spectral data. 
+    \item Co-evolutionary Strategies: To improve the feature selection process itself, we propose exploring co-evolutionary techniques. These methods could allow the population of solutions (bands) and the population of strategies (classifier parameters) to evolve together, potentially discovering more effective spectral combinations that a standard evolutionary approach might miss.
+\end{itemize}
 \backmatter
 
 \bmsubsection*{Author Contributions}
-Ana Martínez Dorado: Investigadora (realización de los ensayos experimentales). Rocío Casquete Palencia: Directora y supervisora del estudio.
+\textbf{Israel Calderón Aguilar:} Conceptualization, Methodology, Software, Formal Analysis, Visualization, Writing – Original Draft. \textbf{Juan Villegas Cortez:} Supervision, Validation, Writing – Review \& Editing. \textbf{Josefa Díaz Álvarez:} Supervision, Validation, Writing – Review \& Editing. \textbf{Román Anselmo Mora Gutiérrez:} Supervision, Validation. \textbf{Francisco Fernandez De Vega:} Supervision, Validation. \textbf{Francisco Chávez de la O:} Supervision, Validation. \textbf{Arturo Zúñiga López:} Supervision, Validation.
+
 
 \bmsubsection*{Acknowledgments}
 This research is supported by Spanish Ministry of Science and Innovation under project PID2023-147409NB-C22 funded by MCIN-/AEI-/10.130-39/501100011033, Junta de Extremadura, project GR24142 and by “ERDF A way of making Europe”.
