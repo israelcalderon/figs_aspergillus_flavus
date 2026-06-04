@@ -184,6 +184,7 @@ The objective is to find the binary vector $B=\{b_1,\ldots,b_n\}$ that maximizes
     F1=2\times{\frac{Precision \times{Recall}}{Precision + Recall}}
 \end{equation}
 
+
 The F1-Score was selected as the fitness function due to its ability to balance precision and recall. 
 It is critical to penalize false negatives (infected figs misclassified as healthy), as these represent a significant health risk. 
 Furthermore, the F1-Score provides a robust performance metric that effectively mitigates the bias potentially introduced by the slight class imbalance in the dataset.
@@ -195,17 +196,19 @@ This implementation used a 448-bit binary string to encode the band subset, wher
 The algorithm evolves the population over successive generations to optimize the target fitness function. 
 The specific parameter settings used in this study are detailed in Table \ref{tab1}.
 
-\begin{table*}[!ht]
-\centering
-\caption{Genetic Algorithm parameters.\label{tab1}}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}ccccc@{\extracolsep\fill}}
-\toprule
-\textbf{Generations} & \textbf{Population size} & \textbf{Selection type} & \textbf{Crossover} & \textbf{Mutation rate}\\
-\midrule
-350 & 250 & Tournament of 2 & Single Point & 2.5\\
-\bottomrule
-\end{tabular*}
-\end{table*}
+\begin{table}[!ht]
+    \caption{Genetic Algorithm parameters.\label{tab1}}
+    \centering
+    \small % Reduces the font size for the table contents
+    \setlength{\tabcolsep}{3pt} % Reduces the default horizontal padding
+    \begin{tabular}{ccccc}
+        \toprule
+        \textbf{Generations} & \textbf{Population} & \textbf{Selection} & \textbf{Crossover} & \textbf{Mutation rate}\\
+        \midrule
+        350 & 250 & Tournament & Single Point & 2.5\\
+        \bottomrule
+    \end{tabular}    
+\end{table}
 
 \subsubsection{Particle Swarm Optimization Algorithm}
 Particle Swarm Optimization (PSO) is a stochastic metaheuristic inspired by the collective social behavior of bird flocks and fish schools. 
@@ -233,17 +236,19 @@ Where:
 \end{itemize}
 The specific parameter settings used in this study are detailed in Table \ref{tab2}.
 
-\begin{table*}[!ht]
+\begin{table}[!ht]
 \centering
-\caption{PSO parameters.\label{tab2}}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}cccccc@{\extracolsep\fill}}
-\toprule
-\textbf{Iterations} & \textbf{Particles} & \textbf{C1} & \textbf{C2} & \textbf{Inertia} & \textbf{Mutation rate}\\
-\midrule
-650 & 200 & 0.4 to 2.5 & 2.5 to 0.4 & 0.7 & 0.2\\
-\bottomrule
-\end{tabular*}
-\end{table*}
+    \small
+    \setlength{\tabcolsep}{3pt}
+    \caption{PSO parameters.\label{tab2}}
+    \begin{tabular}{cccccc}
+        \toprule
+        \textbf{Iterations} & \textbf{Particles} & \textbf{C1} & \textbf{C2} & \textbf{Inertia} & \textbf{Mutation rate}\\
+        \midrule
+        650 & 200 & 0.4 to 2.5 & 2.5 to 0.4 & 0.7 & 0.2\\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection{Classification Model Implementation}
 A Support Vector Machine (SVM) was implemented for the supervised classification task, selected for its proven robustness in high-dimensional spaces and effectiveness with limited datasets \cite{nagasubramanian_hyperspectral_2018, musci_ice_2020}. 
