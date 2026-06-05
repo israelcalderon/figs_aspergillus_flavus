@@ -207,7 +207,7 @@ The specific parameter settings used in this study are detailed in Table \ref{ta
         \midrule
         350 & 250 & Tournament & Single Point & 2.5\\
         \bottomrule
-    \end{tabular}    
+    \end{tabular}
 \end{table}
 
 \subsubsection{Particle Swarm Optimization Algorithm}
@@ -265,18 +265,20 @@ Before training, data normalization, using StandardScaler, was applied to ensure
 Finally, to ensure an unbiased evaluation, the winning model is evaluated on a test set that remained unseen during the optimization phase. 
 The configuration parameters for both implementations are detailed in Table \ref{tab3}.
 
-\begin{table*}[!ht]
-\centering
-\caption{SVM Parameters.\label{tab3}}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}ccccc@{\extracolsep\fill}}
-\toprule
-\textbf{Implementation} & \textbf{Kernel} & \textbf{Regularization ($C$)} & \textbf{Gamma ($\gamma$)} & \textbf{Validation method}\\
-\midrule
-Fast evaluator       & RBF & Fixed 1.0             & Fixed scale & k-fold CV ($k=3$)\\
-Exhaustive evaluator & RBF & Grid search 0.1 to 1000 & Grid search 0.001 to 1 & k-fold CV ($k=5$)\\
-\bottomrule
-\end{tabular*}
-\end{table*}
+\begin{table}[!ht]
+    \centering
+    \caption{SVM Parameters.\label{tab3}}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Parameter} & \textbf{Fast Evaluator} & \textbf{Exhaustive Evaluator} \\
+        \midrule
+        Kernel & RBF & RBF \\
+        Regularization ($C$) & Fixed 1.0 & Grid search 0.1 to 1000 \\
+        Gamma ($\gamma$) & Fixed scale & Grid search 0.001 to 1 \\
+        Validation Method & k-fold CV ($k=3$) & k-fold CV ($k=5$) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \section{Results}
 \subsection{Spectral Characterization of Samples}
@@ -289,12 +291,12 @@ Figure \ref{fig:3}b presents the standard deviation per wavelength.
 It is observed that infected samples have a major variability compared to the healthy ones.
 This visual evidence leads to support the premise that the fungal infection affects the textural heterogeneity on the fig skin.
 
-\begin{figure*}[!ht]
+\begin{figure}[!ht]
 \centering
-\subfloat[]{\includegraphics[width=0.8\textwidth]{spectral_signature_mean_reflectance.png}}\\
-\subfloat[]{\includegraphics[width=0.8\textwidth]{spectral_signature_mean_standard_deviation.png}}
+\subfloat[]{\includegraphics[width=0.5\textwidth]{spectral_signature_mean_reflectance.png}}\\
+\subfloat[]{\includegraphics[width=0.5\textwidth]{spectral_signature_mean_standard_deviation.png}}
 \caption{Spectral characterization of the fig samples. (\textbf{a}) Average reflectance signatures. (\textbf{b}) Standard deviation signatures.\label{fig:3}}
-\end{figure*}
+\end{figure}
 
 \subsection{Impact of Feature Construction}
 To validate the contribution of the standard deviation to the fungal classification, the band selection process was executed under two distinct feature configurations. 
