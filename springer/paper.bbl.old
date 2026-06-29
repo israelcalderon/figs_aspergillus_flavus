@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{chu_classifying_2020}
+Chu, X., Wang, W., Ni, X., Li, C., Li, Y.: Classifying maize kernels naturally infected by fungi using near-infrared hyperspectral imaging. Infrared Physics \& Technology  \textbf{105},  103242 (Mar 2020). \doi{10.1016/j.infrared.2020.103242}, \url{https://linkinghub.elsevier.com/retrieve/pii/S1350449519308485}
+
+\bibitem{cruz-carrasco_detection_2024}
+Cruz-Carrasco, C., Díaz-Álvarez, J., Chávez De La~O, F., Sánchez-Venegas, A., Villegas~Cortez, J.: Detection of {Aspergillus} flavus in {Figs} by {Means} of {Hyperspectral} {Images} and {Deep} {Learning} {Algorithms}. AgriEngineering  \textbf{6}(4),  3969--3988 (Oct 2024). \doi{10.3390/agriengineering6040225}, \url{https://www.mdpi.com/2624-7402/6/4/225}
+
+\bibitem{park_hyperspectral_2015}
+Park, B., Lu, R. (eds.): Hyperspectral {Imaging} {Technology} in {Food} and {Agriculture}. Food {Engineering} {Series}, Springer New York, New York, NY (2015). \doi{10.1007/978-1-4939-2836-1}, \url{https://link.springer.com/10.1007/978-1-4939-2836-1}
+
+\bibitem{wang_review_2021}
+Wang, C., Liu, B., Liu, L., Zhu, Y., Hou, J., Liu, P., Li, X.: A review of deep learning used in the hyperspectral image analysis for agriculture. Artificial Intelligence Review  \textbf{54}(7),  5205--5253 (Oct 2021). \doi{10.1007/s10462-021-10018-y}, \url{https://link.springer.com/10.1007/s10462-021-10018-y}
+
+\end{thebibliography}
