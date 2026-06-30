@@ -82,7 +82,7 @@ However, many of these approaches utilize the full spectrum, which requires expe
 Current literature suggests that spectral band selection is a crucial step for practical implementation \cite{sawant_survey_2020}. 
 Statistical methods such as Principal Component Analysis (PCA) have traditionally been used to reduce data \cite{chu_classifying_2020}, but techniques based on evolutionary algorithms (such as GA and PSO) are gaining ground due to their ability to find global optimal solutions in complex search spaces \cite{sawant_survey_2020}.
 
-The main objective of this research work is to optimize the detection of the fungus \textit{Aspergillus flavus} in fresh figs using an evolutionary approach. The development of the engineering features strategy involved the implementation of a genetic algorithm as an intelligent spectral band selection. Support Vector Machine (SVM) was applied to assess the fitness of the individuals.
+The main objective of this research work is to optimize the detection of the fungus \textit{Aspergillus flavus} in fresh figs using an evolutionary approach. The development of the engineering features strategy involved the implementation of a genetic algorithm as an intelligent spectral band selection. SVM was applied to assess the fitness of the individuals.
 
 Based on the advances obtained, this work concludes that the fusion of mean reflectance and standard deviation data allows achieving performance metrics (F1-Score) exceeding $83\%$. %$0.83$. 
 
@@ -94,11 +94,11 @@ These findings validate that it is possible to drastically reduce the complexity
 The methodology employed in this work is structured into three sequential stages, as illustrated in Figure \ref{fig:1}. 
 First, the acquisition of hyperspectral images of healthy and infected figs was carried out. 
 The second stage consisted of image preprocessing, which included radiometric correction, region of interest (ROI) segmentation, and the extraction of representative statistical metrics (mean and standard deviation) per sample. 
-Subsequently, an optimization strategy based on metaheuristics was implemented, evaluated using a Support Vector Machine (SVM), with the objective of reducing dimensionality and selecting the optimal spectral bands for the detection of \textit{Aspergillus flavus}.
+Subsequently, an optimization strategy based on metaheuristics was implemented, evaluated using a SVM, with the objective of reducing dimensionality and selecting the optimal spectral bands for the detection of \textit{Aspergillus flavus}.
 
 \subsection{Sample Preparation and Data Acquisition}
 
-For data acquisition, the same hyperspectral images as in the work of \cite{cruz-carrasco_detection_2024} were used. 
+This research work utilized hyperspectral images previously acquired and analyzed using alternative classification strategies \cite{cruz-carrasco_detection_2024}. 
 
 These images were generated using fresh figs (Ficus carica L.) of the \textit{Calabacita} variety, which were harvested at the "Finca La Orden-Valdesequera" belonging to the Scientific and Technological Research Center of Extremadura (CICYTEX), located in Guadajira, Badajoz, Spain. All the figs were harvested at the same time.
 
@@ -162,7 +162,7 @@ This high redundancy is shown in the Figure \ref{fig:2} which is a correlation m
 The prominent structure formed in the diagonal of the matrix indicates groups of correlation coefficients near to 1.0. 
 Furthermore, the high data volume significantly increases the computational burden required for processing. 
 To address these challenges, band selection has proven to be an effective strategy for dimensionality reduction, eliminating redundancy while preserving the most discriminative spectral features \cite{sawant_survey_2020, nagasubramanian_hyperspectral_2018}. 
-In this study, two metaheuristic approaches are employed for optimal band selection: Genetic Algorithms (GA) and Particle Swarm Optimization (PSO). 
+In this study, two metaheuristic approaches are employed for optimal band selection: GA and PSO. 
 
 Comparing PSO and GA can provide valuable information to the problem at hand. PSO is more effective in exploiting the search space by quickly adjusting solutions near the optimum, but it can get trapped in local optima due to its tendency to rapidly focus on specific areas. In contrast, GA favors global exploration and diversity, avoiding premature convergence and being more robust in multimodal spaces. Comparing both algorithms can help to identify whether the problem will require more exploration, where GA excels, or more exploitation, where PSO is more efficient. Not only will this improve the efficiency and robustness in the search for global optima, but it also can provide valuable insights to guide the next research steps.
 
@@ -194,7 +194,7 @@ It is critical to penalize false negatives (infected figs misclassified as healt
 Furthermore, the F1-Score provides a robust performance metric that effectively mitigates the bias potentially introduced by the slight class imbalance in the dataset.
 
 \subsubsection{Genetic Algorithm}
-The Genetic Algorithm (GA) is a metaheuristic optimization technique bio-inspired by natural evolution and genetic recombination. 
+The Genetic Algorithm is a metaheuristic optimization technique bio-inspired by natural evolution and genetic recombination. 
 It encodes candidate solutions (individuals) as vectors and iteratively applies evolutionary operators such as selection, crossover, and mutation, often supplemented by elitism strategies \cite{eiben_introduction_2015, deb_multi-objective_2001}. 
 This implementation used a 448-bit binary string to encode the band subset, where a value of "1" indicates selection, and a "0" value denotes exclusion.
 The algorithm evolves the population over successive generations to optimize the target fitness function. 
@@ -203,19 +203,24 @@ The specific parameter settings used in this study are detailed in Table \ref{ta
 \begin{table}
     \caption{Genetic Algorithm parameters.\label{tab1}}
     \centering
-    % \small % Reduces the font size for the table contents
-    % \setlength{\tabcolsep}{3pt} % Reduces the default horizontal padding
-    \begin{tabular}{c|c|c|c|c}
+    \begin{tabular}{ll}
         \hline
-        Generations & Population & Selection & Crossover & Mutation rate\\
+        {\bfseries Parameter} & {\bfseries Value}\\
         \hline
-        350 & 250 & Tournament & Single Point & 2.5\\
+        Independent runs & 30 \\
+        Generations & 350\\
+        Population & 250\\
+        Selection & Tournament ($k=5$) \\
+        Crossover & Single Point \\
+        Crossover Probability & 1.0\\
+        Mutation rate & 25\%\\
+        Elitism & 2 best individuals\\
         \hline
     \end{tabular}
 \end{table}
 
 \subsubsection{Particle Swarm Optimization Algorithm}
-Particle Swarm Optimization (PSO) is a stochastic metaheuristic inspired by the collective social behavior of bird flocks and fish schools. 
+Particle Swarm Optimization is a stochastic metaheuristic inspired by the collective social behavior of bird flocks and fish schools. 
 Unlike traditional evolutionary algorithms that rely on recombination or crossover operators, PSO models the population members as particles traversing an n-dimensional search space. By analogy, a swarm is similar to a population and a particle is similar to an individual.   
 Each particle is characterized by its current position (representing a candidate solution for the band selection) and a velocity vector that governs its trajectory. 
 The movement of a particle is determined by updating its velocity based on a weighted sum of three distinct components (inertia, cognitive and social) \cite{eiben_introduction_2015}.
@@ -245,17 +250,23 @@ The specific parameter settings used in this study are detailed in Table \ref{ta
     % \small
     % \setlength{\tabcolsep}{3pt}
     \caption{PSO parameters.\label{tab2}}
-    \begin{tabular}{c|c|c|c|c|c}
+    \begin{tabular}{ll}
         \hline
-        Iterations & Particles & C1 & C2 & Inertia & Mutation rate\\
+        {\bfseries Parameter} & {\bfseries Value}\\
         \hline
-        650 & 200 & 0.4 to 2.5 & 2.5 to 0.4 & 0.7 & 0.2\\
+        Independent runs & 30 \\
+        Iterations & 650\\
+        Particles & 200\\
+        C1 & 0.4 to 2.5\\
+        C2 & 2.5 to 0.4\\
+        Inertia & 0.7\\
+        Mutation rate & 0.2\\
         \hline
     \end{tabular}           
 \end{table}
 
 \subsection{Classification Model}
-A Support Vector Machine (SVM) was implemented for the supervised classification task, selected for its proven robustness in high-dimensional spaces and effectiveness with limited datasets \cite{nagasubramanian_hyperspectral_2018, musci_ice_2020}. 
+A SVM was implemented for the supervised classification task, selected for its proven robustness in high-dimensional spaces and effectiveness with limited datasets \cite{nagasubramanian_hyperspectral_2018, musci_ice_2020}. 
 Given the non-linear nature of the spectral boundaries between healthy and infected samples, the Radial Basis Function (RBF) kernel was employed.
 
 \subsubsection{Computational Strategy}
@@ -352,7 +363,7 @@ Furthermore, the interquartile ranges for GA were consistently narrower compared
 \caption{Boxplot comparison GA vs. PSO with ($\mu+\sigma$) features.}
 \label{fig:5}
 \end{figure}
-Notably, the absolute maximum F1-Score of the entire study (0.836) was achieved by the Genetic Algorithm (GA) using the 5 band subset with the ($\mu+\sigma$) configuration. 
+Notably, the absolute maximum F1-Score of the entire study (0.836) was achieved by the GA using the 5 band subset with the ($\mu+\sigma$) configuration. 
 The specific wavelength found by this best individual were: 397.01, 398.32, 404.86, 707.93 and 763.94 nm. 
 However, it is noteworthy that the configuration using only the mean ($\mu$) with 6 bands yielded a nearly identical score of 0.832. 
 This suggests that the inclusion of the standard deviation stabilizes the search process and improves classification performance when the feature subset is small (e.g., 3 bands); however, this advantage diminishes as more bands are added. 
@@ -396,7 +407,7 @@ This finding proves that early pigment alterations and textural stress markers a
 \section{Conclusions}
 This study presented a non-invasive methodology for the early detection of Aspergillus flavus in figs using hyperspectral imaging coupled with metaheuristic band selection. 
 By constructing a statistical feature vector based on the spectral mean ($\mu$) and standard deviation ($\sigma$), the proposed approach successfully reduced the high dimensional hyperspectral data into a compact subset of informative characteristics. This subset of characteristics also captured successfully both spectral tendencies and textural heterogeneity induced by the infection. 
-The experimental results demonstrated that the Genetic Algorithm (GA) exhibited superior optimization capabilities compared to Particle Swarm Optimization (PSO). The GA identified an optimal, highly compact subset of only 5 bands \textit{(397.01, 398.32, 404.86, 707.93, and 763.94 nm)}, achieving a F1-Score of 0.836. 
+The experimental results demonstrated that the GA exhibited superior optimization capabilities compared to PSO. The GA identified an optimal, highly compact subset of only 5 bands \textit{(397.01, 398.32, 404.86, 707.93, and 763.94 nm)}, achieving a F1-Score of 0.836. 
 Furthermore, the physical consistency of this optimal subset was validated. The algorithmically selected bands align exclusively with early visible pigmentation changes and structural markers induced by stress at the red edge \cite{mahlein_plant_2016}. Notably, the optimal model achieved maximum classification performance without relying on the water absorption region \textit{(950–1000 nm)}, proving that early pigment and textural stress markers are sufficiently discriminative for fungal detection \cite{nicolai_nondestructive_2007}.
 Finally, future research will focus on employing multi-objective optimization algorithms to dynamically balance classification accuracy and subset dimensionality without predefined constraints. Additionally, the integration of advanced non-linear classifiers, such as XGBoost, and the exploration of co-evolutionary strategies will be investigated to further enhance the robustness of the spectral selection process.
 
