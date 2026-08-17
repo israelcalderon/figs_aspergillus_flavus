@@ -53,7 +53,7 @@ Nutrición y Bromatología, Escuela de Ingenierías Agrarias, University of Extr
 Instituto Universitario de Investigación en Recursos Agrarios (INURA), University of Extremadura, Avd. de la Investigación, 06006 Badajoz, Spain\\
 \email{rociocp@unex.es}}
 %
-\maketitle              % typeset the header of the contribution
+\maketitle % typeset the header of the contribution
 %
 \begin{abstract}
 Hyperspectral Imaging offers a powerful non-invasive tool for precision agriculture; however, its inherent high dimensionality represents a computational challenge. This paper proposes a metaheuristic based intelligent framework to optimize band selection for the detection of severe \textit{Aspergillus flavus} infections in \textit{Ficus carica} (figs). The dataset utilized consists of 560 samples, strictly divided into 277 healthy controls and 283 samples inoculated with a high fungal concentration ($10^7$ CFU/mL). We comparatively evaluate Genetic Algorithms (GA) and Particle Swarm Optimization (PSO) to identify highly compact and discriminative spectral subsets. A core methodological contribution is the design of a concatenated feature vector combining mean reflectance and spatial standard deviation ($\mu + \sigma$), which successfully captures both spectral tendency and infection induced textural heterogeneity. To mitigate the computational overhead of the metaheuristic search, a two stage Support Vector Machine (SVM) evaluation strategy is implemented utilizing cross-validation, balancing rapid fitness estimation with rigorous hyperparameter fine tuning. Furthermore, a Shapley Additive Explanations (SHAP) analysis was conducted on the global optimum model to quantify feature weights and impact directionality. Experimental results demonstrate that GA outperforms PSO in navigating the search space, achieving a global maximum F1-Score of 0.836 on a held-out test set using an optimal subset of only 5 bands. The proposed framework drastically reduces data dimensionality while preserving classification accuracy, offering a scalable and explainable AI solution for automated food safety inspection.
@@ -86,10 +86,7 @@ The main objective of this research work is to optimize the detection of severe 
 
 \section{Materials and Methods}
 
-The methodology employed in this work is structured into three sequential stages, as illustrated in Figure \ref{fig:1}. 
-First, the acquisition of hyperspectral images of healthy and infected figs was carried out. 
-The second stage consisted of image preprocessing, which included radiometric correction, region of interest (ROI) segmentation, and the extraction of representative statistical metrics (mean and standard deviation) per sample. 
-Subsequently, an optimization strategy based on metaheuristics was implemented, evaluated using a SVM, with the objective of reducing dimensionality and selecting the optimal spectral bands for the detection of \textit{Aspergillus flavus}.
+The methodology employed in this work is structured into five sequential stages, as illustrated in Figure \ref{fig:1}. First, the acquisition of hyperspectral images of healthy and infected figs was carried out. The second stage consisted of image preprocessing, which included radiometric correction and region of interest (ROI) segmentation. In the third stage, feature extraction was performed to compute representative statistical metrics (mean and standard deviation) for each sample. Fourth, an optimization strategy based on metaheuristics was implemented and evaluated using a Support Vector Machine (SVM), with the objective of reducing dimensionality and selecting the optimal spectral bands for the detection of \textit{Aspergillus flavus}. Finally, in the fifth stage, a SHAP analysis was conducted on the global optimum model to interpret feature importance and directionality.
 
 \subsection{Sample Preparation and Data Acquisition}
 
@@ -110,7 +107,7 @@ Hyperspectral images were acquired every 24 hours for five consecutive days foll
 Image acquisition was performed using a line-scan (pushbroom) hyperspectral camera, particularly the SPECIM model FX10.
 The sensor of this camera captures information in the visible and near-infrared (VNIR) spectral range. 
 This device features a spectral range from 400 nm to 1000 nm, and a spectral resolution of 448 bands with a spectral sampling interval of approximately 1.339 nm. 
-Its spatial resolution is 1024 pixels in spatial width per scan line \cite{specim_specim_2020}.
+Its spatial resolution is 1024 pixels in spatial width per scan line. For each acquired scene, 800 scan lines were captured, resulting in a final hyperspectral data cube dimension of 1024 x 800 x 448 (spatial width x scan lines x spectral bands) \cite{specim_specim_2020}.
 
 In this work, not all images for all classes were used. The focus was on discriminating between healthy controls and samples inoculated with the high concentrations of the fungi, identified as class 3 ($10^7 CFU/mL$), which constituted the working dataset. This study addressed the binary classification between infected and non-infected samples. From now on, we will refer to these as classes 0 and 1, respectively.
 
@@ -129,10 +126,8 @@ Consequently, the final dataset consisted of 560 samples, distributed as 277 sam
 
 \begin{figure}[]
     \centering
-    \subfloat[]{\includegraphics[width=0.49\textwidth]{images/sample_figs_tray.png}}
-    \hfill
-    \subfloat[]{\includegraphics[width=0.49\textwidth]{images/sample_figs_masks.png}}
-    \caption{Figs tray before segmentation (\textbf{a}) and fig masks after segmentation (\textbf{b}).\label{fig:1}}
+    \includegraphics[width=0.7\textwidth]{images/framework_block_diagram.png}
+    \caption{Flowchart of the proposed methodological framework, detailing the sequential pipeline from hyperspectral image acquisition to metaheuristic band selection and SHAP explainability analysis.\label{fig:1}}
 \end{figure}
 
 
