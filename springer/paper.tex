@@ -80,7 +80,7 @@ With respect to figs, recent studies have applied deep learning techniques, such
 
 However, many of these approaches utilize the full spectrum, which requires expensive hardware and high computational power. 
 Current literature suggests that spectral band selection is a crucial step for practical implementation \cite{sawant_survey_2020}. 
-Statistical methods such as Principal Component Analysis (PCA) have traditionally been used to reduce data \cite{chu_classifying_2020}, but techniques based on evolutionary algorithms (such as GA and PSO) are gaining ground due to their ability to find global optimal solutions in complex search spaces \cite{sawant_survey_2020}..
+Statistical methods such as Principal Component Analysis (PCA) have traditionally been used to reduce data \cite{chu_classifying_2020}, but techniques based on evolutionary algorithms (such as GA and PSO) are gaining ground due to their ability to find global optimal solutions in complex search spaces \cite{sawant_survey_2020}.
 
 The main objective of this research work is to optimize the detection of severe \textit{Aspergillus flavus} infections in fresh figs using an evolutionary approach. The feature engineering strategy involved the design of a concatenated statistical vector, evaluated through metaheuristic algorithms specifically Genetic Algorithms and Particle Swarm Optimization for intelligent spectral band selection. A Support Vector Machine (SVM) was applied to assess the fitness of the candidate subsets. Ultimately, this work aims to identify an optimal subset of spectral bands that significantly reduces the complexity of hyperspectral data without compromising detection capability, offering a scalable and explainable path for the agricultural industry.
 
@@ -382,6 +382,9 @@ Figure \ref{fig:6} illustrates this phenomenon, showing how the variance in the 
 \label{fig:6}
 \end{figure}
 
+\subsection{Comparative Analysis with Deep Learning Baselines}
+To contextualize the performance of the proposed metaheuristic framework, it is imperative to compare it against prior deep learning approaches applied to the same dataset. Cruz-Carrasco et al. \cite{cruz-carrasco_detection_2024} previously analyzed these samples using pixel level deep learning models, specifically a Fully Connected Neural Network (FCNN) and a Convolutional Neural Network (CNN). Their work formulated a four class classification problem (healthy controls versus three varying infection concentrations) utilizing the entire 448-band spectral spectrum. Their best performing FCNN model achieved an overall F1-measure of 0.8325, with a specific F1-score of 0.87 when classifying the most severe infection class ($10^7$ CFU/mL).
+
 \section{Model Interpretability and Physical Analysis (XAI)}
 In feature spaces of high dimensionality such as those covered in this work, Suport Vector Machines equipped with non linear kernels operate as if they where black boxes, they obscure the underlying logic for the decision making. 
 To ensure that the proposed methodology relies on true biological markers rather than circumstantial data, a Shapley Additive Explanations (SHAP) analysis was conducted on the global optimum model. 
@@ -396,7 +399,7 @@ The physical interpretation of the optimal 5 band subset demonstrates that the G
 
 \begin{itemize}
     \item Red edge (707.93 and 763.94 nm): Holding the highest quantitative weight in the model, the standard deviation features in this cluster exhibit a clear unidirectional contribution. High spatial variability (represented by high-value red dots) heavily impacts the SHAP value in favor of the infected class. This indicates that the SVM leverages textural roughness caused by surface mycelium proliferation and cell wall degradation at the red edge as its primary diagnostic mechanism.
-    \item Visible/Near UV (397.01, 398.32, and 404.86 nm): Forming a second cluster, these bands show that low mean reflectance values (blue dots) strongly push the model's prediction toward the infected class. This indicates that the infection by \textit{Aspergillus flavus} induces issue darkening and necrosis, thereby increasing light absorption and lowering surface reflectance.
+    \item Visible/Near UV (397.01, 398.32, and 404.86 nm): Forming a second cluster, these bands show that low mean reflectance values (blue dots) strongly push the model's prediction toward the infected class. This indicates that the infection by \textit{Aspergillus flavus} induces tissue darkening and necrosis, thereby increasing light absorption and lowering surface reflectance.
 \end{itemize}
 
 An interesting observation is that this optimal subset achieved the maximum classification F1 Score of 0.836 without selecting any bands in the water absorption region (950-1000 nm). 
