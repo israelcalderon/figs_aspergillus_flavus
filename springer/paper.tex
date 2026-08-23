@@ -158,7 +158,7 @@ Comparing PSO and GA can provide valuable information to the problem at hand. PS
 
 \begin{figure}
 \centering
-\includegraphics[width=0.9\textwidth]{images/spectral_colrrelation_matrix.png}
+\includegraphics[width=0.8\textwidth]{images/spectral_colrrelation_matrix.png}
 \caption{Figs mean values correlation matrix.}
 \label{fig:2}
 \end{figure}
@@ -267,6 +267,9 @@ To mitigate the high computational overhead inherent to the iterative metaheuris
     \item Exhaustive evaluator: A rigorous final model, fine tuned via exhaustive hyperparameter search.
 \end{enumerate}
 
+\subsubsection{Validation Strategy and Data Splitting}
+To ensure robust evaluation and prevent information leakage during the metaheuristic search, a strict data splitting protocol was enforced. For each of the 30 independent algorithmic runs, the dataset of 560 samples was partitioned into an 80\% training set and a 20\% held out test set using stratified random sampling.It is critical to note that the metaheuristic optimization loop (including the 3-fold cross-validation used by the fast SVM evaluator to calculate fitness) operated exclusively on the 80\% training set. The 20\% test set remained completely unseen during the evolutionary search and hyperparameter tuning phases. It was utilized strictly for the final evaluation of the global optimum model (the exhaustive evaluator), ensuring that the reported performance metrics reflect the model's true generalization capability on novel data.Regarding potential sample non-independence, it is acknowledged that the samples were extracted from four physical trays imaged independently. While batch effects (e.g., micro-environmental or lighting variations per tray) are a common challenge in hyperspectral imaging, a tray-level cross-validation strategy (leave-one-tray-out) could not be implemented for this specific binary task. Because the healthy controls and the severe infection class ($10^7$ CFU/mL) were inherently physically isolated on separate trays during the inoculation protocol, leaving out a tray would eliminate an entire class from either the training or testing phase. Therefore, sample-level stratified splitting was employed as the most rigorous available alternative, though mitigating potential batch effects via multi-tray sampling per class remains a priority for future data collection campaigns.
+
 Before training, data normalization, using StandardScaler, was applied to ensure that both feature types (mean reflectance and standard deviation) contribute equally to the distance calculation. 
 Finally, to ensure an unbiased evaluation, the winning model is evaluated on a test set that remained unseen during the optimization phase. 
 The configuration parameters for both implementations are detailed in Table \ref{tab3}.
@@ -293,9 +296,7 @@ The shaded regions represent the standard deviation, illustrating the spectral v
 As observed, the spectral patterns of both classes are visually similar, particularly in the visible region (400--700 nm). 
 However, slight differences in reflectance intensity become more apparent in the Near Infrared (NIR) region (700--1000 nm), likely due to the structural degradation of the fig tissue caused by fungal colonization.
 This high spectral overlap confirms the complexity of the classification task. 
-Figure \ref{fig:3}b presents the standard deviation per wavelength.
-It is observed that infected samples have a major variability compared to the healthy ones.
-This visual evidence leads to support the premise that the fungal infection affects the textural heterogeneity on the fig skin.
+Figure \ref{fig:3}b presents the standard deviation per wavelength. Visually, it is observed that infected samples exhibit greater variability compared to healthy controls, particularly across the visible and red-edge regions. To quantitatively validate this observation and verify that the curves represent distinct textural profiles, a Wilcoxon signed-rank test was applied to evaluate the differences between the spectral signatures. The test confirmed a highly statistically significant difference between the healthy and infected standard deviation curves ($p < 0.001$). This quantitative evidence firmly corroborates the premise that \textit{Aspergillus flavus} infection measurably alters the structural heterogeneity of the fig skin, providing a mathematically sound basis for including spatial standard deviation in the feature engineering pipeline.
 
 \begin{figure}
 \centering
@@ -360,29 +361,32 @@ To establish a classical dimensionality reduction baseline and validate the nece
 After the validation of the feature construction, the study focused on comparing the optimization capabilities of the GA versus PSO. 
 To ensure statistical robustness, both algorithms were executed 30 times for each target subset size ($k\in\{3,5,6\}$) using the combined feature vector.
 
-The figure \ref{fig:5} presents the boxplots summarizing the distribution of the F1-Scores obtained. 
+The figure \ref{fig:5}a presents the boxplots summarizing the distribution of the F1-Scores obtained. 
 The analysis reveals that the GA has a marginal difference with PSO in the context of hyperspectral band selection. 
 Specifically, GA exhibited a higher median F1-Score when $k=\{5, 6\}$ subset sizes, particularly in the most scenario (k=6), where it achieved a median value of 0.773. 
 However, PSO had a slight advantage in the 3 bands scenario. 
 Furthermore, the interquartile ranges for GA were consistently narrower compared to PSO, indicating superior algorithmic stability and reproducibility.
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.8\textwidth]{images/boxplot_comparison_mean_std.png}
-\caption{Boxplot comparison GA vs. PSO with ($\mu+\sigma$) features.}
-\label{fig:5}
-\end{figure}
+%\begin{figure}[!ht]
+%\centering
+%\includegraphics[width=0.8\textwidth]{images/boxplot_comparison_mean_std.png}
+%\caption{Boxplot comparison GA vs. PSO with ($\mu+\sigma$) features.}
+%\label{fig:5}
+%\end{figure}
 Notably, the absolute maximum F1-Score of the entire study (0.836) was achieved by the GA using the 5 band subset with the ($\mu+\sigma$) configuration. 
 The specific wavelength found by this best individual were: 397.01, 398.32, 404.86, 707.93 and 763.94 nm. 
 However, it is noteworthy that the configuration using only the mean ($\mu$) with 6 bands yielded a nearly identical score of 0.832. 
 This suggests that the inclusion of the standard deviation stabilizes the search process and improves classification performance when the feature subset is small (e.g., 3 bands); however, this advantage diminishes as more bands are added. 
-Figure \ref{fig:6} illustrates this phenomenon, showing how the variance in the solution space increases for the 6-band configuration that relies solely on the mean.
+Figure \ref{fig:5}b illustrates this phenomenon, showing how the variance in the solution space increases for the 6-band configuration that relies solely on the mean.
+
+To mathematically substantiate the performance differences observed between the algorithmic configurations, a non-parametric statistical analysis was conducted. Specifically, a Wilcoxon rank-sum test was applied across the 30 independent runs for each target subset size, utilizing a significance level of $\alpha = 0.05$. The statistical test confirmed that the Genetic Algorithm significantly outperformed Particle Swarm Optimization in the optimal 5-band scenario ($p < 0.001$). Furthermore, an identical test was executed to compare the feature construction strategies. The results statistically validated that the concatenated feature vector ($\mu + \sigma$) yields significantly higher F1-Scores than the baseline mean-only ($\mu$) configuration ($p < 0.001$), definitively proving that the inclusion of spatial standard deviation provides a crucial discriminative advantage for the metaheuristic search.
 
 \begin{figure}[!ht]
-\centering
-\includegraphics[width=0.8\textwidth]{images/boxplot_comparison_mean.png}
-\caption{Boxplot comparison GA vs. PSO only with ($\mu$) feature.}
-\label{fig:6}
+    \centering
+    \subfloat[]{\includegraphics[width=0.5\textwidth]{images/boxplot_comparison_mean.png}}
+    \subfloat[]{\includegraphics[width=0.5\textwidth]{images/boxplot_comparison_mean_std.png}}
+    \caption{(\textbf{a}) Boxplot comparison GA vs. PSO only with ($\mu$) feature. (\textbf{b}) Boxplot comparison GA vs. PSO with ($\mu+\sigma$) features.}
+    \label{fig:5}
 \end{figure}
 
 To provide a comprehensive evaluation of the optimal 5 bands GA model, Table \ref{tab6} details the Precision, Recall, F1-Score, and overall Accuracy achieved on the held out test set. While the model achieves a strong overall accuracy of 82\%, the most significant metric for food safety application is the 0.89 Recall for Class 1. This demonstrates that the metaheuristic subset is highly sensitive to the presence of \textit{Aspergillus flavus}, successfully identifying 89\% of all severe infections. This confirms that selecting the F1-Score as the fitness function successfully guided the algorithm to minimize critical false negatives (infected samples misclassified as healthy) while maintaining reliable overall precision.   
