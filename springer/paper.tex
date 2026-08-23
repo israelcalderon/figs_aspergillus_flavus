@@ -309,39 +309,30 @@ Figure \ref{fig:3}b presents the standard deviation per wavelength. Visually, it
 To validate the contribution of the standard deviation to the fungal classification, the band selection process was executed under two distinct feature configurations. 
 Initially, the optimization was performed using only the mean reflectance per band, followed by a second scenario utilizing the combined mean and standard deviation vector. 
 The optimization was conducted for target subset sizes of $k\in\{3,5,6\}$ over 30 independent runs. 
-Tables \ref{tab4} and \ref{tab5} compares the average F1-Score obtained by the GA and PSO across both configurations.
+Table \ref{tab-metaheuristic-comparison} compares the average F1-Score obtained by the GA and PSO across both configurations.
 
 In addition to the previous performance metrics, the evolutionary behavior of the optimization process was analyzed.
 Figure \ref{fig:4} illustrates the average convergence history over 30 independent runs for both feature configurations. 
 The solid lines represent the mean best fitness value at each generation, while the shaded regions indicate the standard deviation across runs.
-\begin{table}
-    \centering
-    \caption{GA performance comparison (average F1-Score) between feature configurations.\label{tab4}}
-    \begin{tabular}{c|c|c|c|c|c}
-        \hline
-        Individual size & Mean & Combined features & Improvement & Best fitness & Best fitness\\
-         & ($\mu$) & ($\mu + \sigma$) & (\%) & ($\mu$) & ($\mu + \sigma$)\\
-        \hline
-        3 Bands & 0.663 & 0.755 & +9.2\% & 0.704 & 0.817\\
-        5 Bands & 0.698 & 0.770 & +7.2\% & 0.754 & 0.836\\
-        6 Bands & 0.721 & 0.773 & +5.2\% & 0.817 & 0.820\\
-        \hline
-    \end{tabular}
-\end{table}
 
 \begin{table}
-    \centering
-    \caption{PSO performance comparison (average F1-Score) between feature configurations.\label{tab5}}
-    \begin{tabular}{c|c|c|c|c|c}
-        \hline
-        Individual size & Mean & Combined features & Improvement & Best fitness & Best fitness\\
-         & ($\mu$) & ($\mu + \sigma$) & (\%) & ($\mu$) & ($\mu + \sigma$)\\
-        \hline
-        3 Bands & 0.649 & 0.756 & +16.5\% & 0.679 & 0.807\\
-        5 Bands & 0.697 & 0.699 & +0.3\% & 0.736 & 0.762\\
-        6 Bands & 0.748 & 0.765 & +2.3\% & 0.832 & 0.821\\
-        \hline
-    \end{tabular}
+\centering
+\caption{Improvement (\%) represents the relative percentage increase in the average F1-Score when utilizing the combined ($\mu + \sigma$) feature vector compared to the baseline mean-only ($\mu$) configuration.\label{tab-metaheuristic-comparison}}
+\begin{tabular}{c|c|c|c|c|c|c}
+\hline
+Subset Size & Algorithm & Avg. F1-Score & Avg. F1-Score & Improvement & Best F1-Score & Best F1-Score\\
+($k$) & & ($\mu$) & ($\mu + \sigma$) & ($\%$) & ($\mu$) &  ($\mu + \sigma$)\\
+\hline
+3 Bands & GA & 0.663 & 0.755 & +13.9\% & 0.704 & 0.817\\
+ & PSO & 0.649 & 0.756 & +16.5\% & 0.679 & 0.807\\
+\hline
+5 Bands & GA & 0.698 & 0.770 & +10.3\% & 0.754 & 0.836\\
+ & PSO & 0.697 & 0.699 & +0.3\% & 0.736 & 0.762\\
+\hline
+6 Bands & GA & 0.721 & 0.773 & +7.2\% & 0.817 & 0.820\\
+ & PSO & 0.748 & 0.765 & +2.3\% & 0.832 & 0.821\\
+\hline
+\end{tabular}
 \end{table}
 
 \begin{figure}[!ht]
